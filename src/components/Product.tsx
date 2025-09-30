@@ -32,7 +32,7 @@ export default function ProductPage() {
             { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต" },
             { id: "blue", image: "/PVC-Spon-blue.png", label: "กรมท่า" },
             { id: "black", image: "/PVC-Spon-black.png", label: "ดำ" },
-   
+
           ],
         },
         {
@@ -43,13 +43,13 @@ export default function ProductPage() {
           mainImage: "/Spon-Spon-white.png",
           colors: [
             { id: "white", image: "/Spon-Spon-white.png", label: "ขาว" },
-            { id: "gray", image: "/Pro-2---blue.png", label: "เทา" },
-            { id: "beige", image: "/Pro-2.png", label: "เบจ(เนื้อ)" },
-            { id: "brow", image: "/Pro-2.png", label: "น้ำตาลช็อคโกแลต" },
-            { id: "blue", image: "/Pro-2.png", label: "กรมท่า" },
-            { id: "black", image: "/Pro-2.png", label: "ดำ" },
-            { id: "green", image: "/Pro-2.png", label: "เขียว" },
-            { id: "red", image: "/Pro-2.png", label: "แดง" },
+            { id: "gray", image: "/Spon-Spon-gray.png", label: "เทา" },
+            { id: "beige", image: "/Spon-Spon-beige.png", label: "เบจ(เนื้อ)" },
+            { id: "brow", image: "/Spon-Spon-brow.png", label: "น้ำตาลช็อคโกแลต" },
+            { id: "blue", image: "/Spon-Spon-blue.png", label: "กรมท่า" },
+            { id: "black", image: "/Spon-Spon-black.png", label: "ดำ" },
+            { id: "green", image: "/Spon-Spon-green.png", label: "เขียว" },
+            { id: "red", image: "/Spon-Spon-red.png", label: "แดง" },
           ],
         },
 
