@@ -7,12 +7,12 @@ import { motion } from "framer-motion";
 export default function ProductPage() {
   const categories = [
     {
-      size: "25x70 นิ้ว",
+      size: "25x37 นิ้ว",
       products: [
         {
           id: 1,
           name: "พีวีซีใส / พีวีซีใส",
-          desc: "ขนาด 25x70 นิ้ว",
+          desc: "ขนาด 25x37 นิ้ว",
           mainImage: "/PVC-Clear.png",
           colors: [
             { id: "clear", image: "/PVC-Clear.png", label: "ใส", price: "400 บาท/โหล" },
@@ -21,7 +21,7 @@ export default function ProductPage() {
         {
           id: 2,
           name: "พีวีซีใส / สปันบอนด์",
-          desc: "ขนาด 25x70 นิ้ว",
+          desc: "ขนาด 25x37 นิ้ว",
           mainImage: "/PVC-Spon-white.png",
           colors: [
             { id: "white", image: "/PVC-Spon-white.png", label: "ขาว", price: "400 บาท/โหล" },
@@ -35,7 +35,7 @@ export default function ProductPage() {
         {
           id: 3,
           name: "สปันบอนด์ / สปันบอนด์",
-          desc: "ขนาด 25x70 นิ้ว",
+          desc: "ขนาด 25x37 นิ้ว",
           mainImage: "/Spon-Spon-white.png",
           colors: [
             { id: "white", image: "/Spon-Spon-white.png", label: "ขาว", price: "500 บาท/โหล" },
