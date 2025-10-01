@@ -17,7 +17,7 @@ export default function HeroSection() {
             สัมผัสประสบการณ์แห่ง KLOOM Studio
           </p>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-            ยินดีต้อนรับ <br /> KLOOM Studio 
+            ยินดีต้อนรับ <br /> KLOOM Studio
           </h1>
           <p className="text-gray-300 mb-4 text-[22px]">
             ปกป้องชุดสุดรักของคุณด้วยถุงคลุมคุณภาพพรีเมียมจาก KLOOM Studio เราออกแบบถุงคลุมสำหรับชุดสูทและชุดราตรีโดยเฉพาะ เพื่อรักษาทรง ป้องกันฝุ่น และช่วยให้การพกพาเป็นเรื่องง่าย วัสดุแข็งแรง ระบายอากาศได้ดี ดีไซน์เรียบหรู เหมาะทั้งสำหรับการจัดเก็บและเดินทาง ให้ชุดของคุณพร้อมใส่เสมอในทุกโอกาส.
@@ -48,7 +48,7 @@ export default function HeroSection() {
         {/* Right Images */}
         <div className="grid grid-cols-2 gap-6">
           {/* รูปซ้าย (สูงกว่า) */}
-          <div className="relative w-full h-[550px] mt-[-80px]">
+          <div className="relative w-full h-[550px] md:mt-[-80px]">
             <Image
               src="/Pic-sevice-1.jpg"
               alt="Show 1"
@@ -58,7 +58,7 @@ export default function HeroSection() {
           </div>
 
           {/* รูปขวา (ต่ำกว่า) */}
-          <div className="relative w-full h-[550px] mb-[-80px]">
+          <div className="relative w-full h-[550px] md:mb-[-80px]">
             <Image
               src="/Pic-sevice-2.jpg"
               alt="Show 2"
@@ -66,6 +66,7 @@ export default function HeroSection() {
               className="object-cover rounded shadow-lg"
             />
           </div>
+
         </div>
       </div>
     </section>

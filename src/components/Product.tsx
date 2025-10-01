@@ -13,124 +13,89 @@ export default function ProductPage() {
           id: 1,
           name: "พีวีซีใส / พีวีซีใส",
           desc: "ขนาด 25x70 นิ้ว",
-          price: "400 บาท/โหล",
           mainImage: "/PVC-Clear.png",
           colors: [
-            { id: "clear", image: "/PVC-Clear.png", label: "ใส" },
+            { id: "clear", image: "/PVC-Clear.png", label: "ใส", price: "400 บาท/โหล" },
           ],
         },
         {
           id: 2,
           name: "พีวีซีใส / สปันบอนด์",
           desc: "ขนาด 25x70 นิ้ว",
-          price: "400 บาท/โหล",
           mainImage: "/PVC-Spon-white.png",
           colors: [
-            { id: "white", image: "/PVC-Spon-white.png", label: "ขาว" },
-            { id: "gray", image: "/PVC-Spon-gray.png", label: "เทา" },
-            { id: "beige", image: "/PVC-Spon-beige.png", label: "เบจ(เนื้อ)" },
-            { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต" },
-            { id: "blue", image: "/PVC-Spon-blue.png", label: "กรมท่า" },
-            { id: "black", image: "/PVC-Spon-black.png", label: "ดำ" },
-
+            { id: "white", image: "/PVC-Spon-white.png", label: "ขาว", price: "400 บาท/โหล" },
+            { id: "gray", image: "/PVC-Spon-gray.png", label: "เทา", price: "420 บาท/โหล" },
+            { id: "beige", image: "/PVC-Spon-beige.png", label: "เบจ(เนื้อ)", price: "430 บาท/โหล" },
+            { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต", price: "450 บาท/โหล" },
+            { id: "blue", image: "/PVC-Spon-blue.png", label: "กรมท่า", price: "400 บาท/โหล" },
+            { id: "black", image: "/PVC-Spon-black.png", label: "ดำ", price: "420 บาท/โหล" },
           ],
         },
         {
           id: 3,
           name: "สปันบอนด์ / สปันบอนด์",
           desc: "ขนาด 25x70 นิ้ว",
-          price: "500 บาท/โหล",
           mainImage: "/Spon-Spon-white.png",
           colors: [
-            { id: "white", image: "/Spon-Spon-white.png", label: "ขาว" },
-            { id: "gray", image: "/Spon-Spon-gray.png", label: "เทา" },
-            { id: "beige", image: "/Spon-Spon-beige.png", label: "เบจ(เนื้อ)" },
-            { id: "brow", image: "/Spon-Spon-brow.png", label: "น้ำตาลช็อคโกแลต" },
-            { id: "blue", image: "/Spon-Spon-blue.png", label: "กรมท่า" },
-            { id: "black", image: "/Spon-Spon-black.png", label: "ดำ" },
-            { id: "green", image: "/Spon-Spon-green.png", label: "เขียว" },
-            { id: "red", image: "/Spon-Spon-red.png", label: "แดง" },
+            { id: "white", image: "/Spon-Spon-white.png", label: "ขาว", price: "500 บาท/โหล" },
+            { id: "gray", image: "/Spon-Spon-gray.png", label: "เทา", price: "510 บาท/โหล" },
+            { id: "beige", image: "/Spon-Spon-beige.png", label: "เบจ(เนื้อ)", price: "520 บาท/โหล" },
+            { id: "brow", image: "/Spon-Spon-brow.png", label: "น้ำตาลช็อคโกแลต", price: "530 บาท/โหล" },
+            { id: "blue", image: "/Spon-Spon-blue.png", label: "กรมท่า", price: "500 บาท/โหล" },
+            { id: "black", image: "/Spon-Spon-black.png", label: "ดำ", price: "510 บาท/โหล" },
+            { id: "green", image: "/Spon-Spon-green.png", label: "เขียว", price: "520 บาท/โหล" },
+            { id: "red", image: "/Spon-Spon-red.png", label: "แดง", price: "530 บาท/โหล" },
           ],
         },
-
       ],
       addons: [
-        {
-          id: 101,
-          name: "หมวกด้านหน้า",
-          price: "50 บาท/โหล",
-          image: "/hat.png",
-        },
-        {
-          id: 102,
-          name: "หูหิ้ว",
-          price: "50 บาท/โหล",
-          image: "/handle.png",
-        },
-        {
-          id: 103,
-          name: "กระดุม",
-          price: "50 บาท/โหล",
-          image: "/button.png",
-        },
+        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/hat.png" },
+        { id: 102, name: "หูหิ้ว", price: "50 บาท/โหล", image: "/handle.png" },
+        { id: 103, name: "กระดุม", price: "50 บาท/โหล", image: "/button.png" },
       ],
     },
     {
       size: "25x55 นิ้ว",
       products: [
         {
-          id: 3,
+          id: 4,
           name: "เนื้อผ้าใส",
           desc: "สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี",
-          price: "350 บาท/โหล",
           mainImage: "/Pro-2---red.png",
           colors: [
-            { id: "red", image: "/Pro-2---red.png", label: "Red" },
-            { id: "blue", image: "/Pro-2---blue.png", label: "Blue" },
+            { id: "red", image: "/Pro-2---red.png", label: "Red", price: "350 บาท/โหล" },
+            { id: "blue", image: "/Pro-2---blue.png", label: "Blue", price: "360 บาท/โหล" },
           ],
         },
         {
-          id: 4,
+          id: 5,
           name: "เนื้อผ้าหนา",
           desc: "สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี",
-          price: "400 บาท/โหล",
           mainImage: "/Pro-2---blue.png",
           colors: [
-            { id: "red", image: "/Pro-2---red.png", label: "Red" },
-            { id: "blue", image: "/Pro-2---blue.png", label: "Blue" },
+            { id: "red", image: "/Pro-2---red.png", label: "Red", price: "400 บาท/โหล" },
+            { id: "blue", image: "/Pro-2---blue.png", label: "Blue", price: "420 บาท/โหล" },
           ],
         },
       ],
       addons: [
-        {
-          id: 104,
-          name: "หมวกด้านหน้า",
-          price: "50 บาท/โหล",
-          image: "/hat.png",
-        },
-        {
-          id: 105,
-          name: "หูหิ้ว",
-          price: "50 บาท/โหล",
-          image: "/handle.png",
-        },
-        {
-          id: 106,
-          name: "กระดุม",
-          price: "50 บาท/โหล",
-          image: "/button.png",
-        },
+        { id: 104, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/hat.png" },
+        { id: 105, name: "หูหิ้ว", price: "50 บาท/โหล", image: "/handle.png" },
+        { id: 106, name: "กระดุม", price: "50 บาท/โหล", image: "/button.png" },
       ],
     },
   ];
 
-  const [selectedImages, setSelectedImages] = useState(
+  // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา
+  const [selectedVariants, setSelectedVariants] = useState(
     categories.reduce((acc, category) => {
       category.products.forEach((product) => {
-        acc[product.id] = product.mainImage;
+        const defaultColor = product.colors[0];
+        acc[product.id] = { image: defaultColor.image, price: defaultColor.price };
       });
       return acc;
-    }, {} as Record<number, string>)
+    }, {} as Record<number, { image: string; price: string }>)
   );
 
   const [openCategory, setOpenCategory] = useState<string | null>(null);
@@ -148,8 +113,8 @@ export default function ProductPage() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  const handleColorClick = (productId: number, image: string) => {
-    setSelectedImages((prev) => ({ ...prev, [productId]: image }));
+  const handleColorClick = (productId: number, image: string, price: string) => {
+    setSelectedVariants((prev) => ({ ...prev, [productId]: { image, price } }));
   };
 
   return (
@@ -165,14 +130,12 @@ export default function ProductPage() {
 
       {categories.map((category) => (
         <div key={category.size} className="mb-12">
-          {/* Accordion มือถือ */}
           {isMobile && (
             <button
-              className="w-full flex justify-between items-center  p-4 rounded-md mb-4" style={{ background: "#deb18a" }}
+              className="w-full flex justify-between items-center p-4 rounded-md mb-4"
+              style={{ background: "#deb18a" }}
               onClick={() =>
-                setOpenCategory(
-                  openCategory === category.size ? null : category.size
-                )
+                setOpenCategory(openCategory === category.size ? null : category.size)
               }
             >
               <span className="font-semibold text-lg">{category.size}</span>
@@ -182,17 +145,14 @@ export default function ProductPage() {
             </button>
           )}
 
-          {/* Desktop header */}
           {!isMobile && (
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
               ขนาด {category.size}
             </h2>
           )}
 
-          {/* Container สินค้า */}
           {(!isMobile || openCategory === category.size) && (
             <>
-              {/* Main products */}
               <div className="flex flex-wrap -mx-4 mb-6">
                 {category.products.map((product) => (
                   <motion.div
@@ -208,7 +168,7 @@ export default function ProductPage() {
                       <div className="w-full md:w-1/2 flex justify-center">
                         <div className="relative w-full sm:max-w-[400px] aspect-[4/5]">
                           <Image
-                            src={selectedImages[product.id]}
+                            src={selectedVariants[product.id].image}
                             alt={product.name}
                             fill
                             className="object-contain"
@@ -226,7 +186,6 @@ export default function ProductPage() {
                           {product.desc}
                         </p>
 
-                        {/* Colors */}
                         <p className="font-semibold text-gray-800 mt-2">
                           Other colors
                         </p>
@@ -235,12 +194,13 @@ export default function ProductPage() {
                             <div
                               key={color.id}
                               onClick={() =>
-                                handleColorClick(product.id, color.image)
+                                handleColorClick(product.id, color.image, color.price)
                               }
                               className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition
-                          ${selectedImages[product.id] === color.image
-                                  ? "border-gray-800 shadow-md"
-                                  : "border-gray-200 hover:border-gray-400"
+                                ${
+                                  selectedVariants[product.id].image === color.image
+                                    ? "border-gray-800 shadow-md"
+                                    : "border-gray-200 hover:border-gray-400"
                                 }`}
                             >
                               <div className="relative w-full h-20">
@@ -258,9 +218,8 @@ export default function ProductPage() {
                           ))}
                         </div>
 
-                        {/* Price */}
                         <p className="text-3xl font-bold text-[#deb18a] mt-4">
-                          {product.price}
+                          {selectedVariants[product.id].price}
                         </p>
                       </div>
                     </div>
@@ -268,16 +227,12 @@ export default function ProductPage() {
                 ))}
               </div>
 
-              {/* Addon products */}
               <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
                 เพิ่มเติมจุดต่างๆ
               </h3>
               <div className="flex flex-wrap -mx-4">
                 {category.addons.map((addon) => (
-                  <div
-                    key={addon.id}
-                    className="w-1/2 md:w-1/4 px-4 mb-6"
-                  >
+                  <div key={addon.id} className="w-1/2 md:w-1/4 px-4 mb-6">
                     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col items-center gap-2">
                       <div className="relative w-full h-28">
                         <Image
