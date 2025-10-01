@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.yourtailorshop.com"), // ✅ ใส่ domain จริงของคุณ
   title: "Tailor Shop – ชุดสั่งตัดเฉพาะตัว",
   description: "บริการตัดชุดสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
   keywords: ["Tailor", "ชุดสั่งตัด", "Tailor Shop", "ตัดชุด"],

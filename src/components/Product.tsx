@@ -50,9 +50,9 @@ export default function ProductPage() {
         },
       ],
       addons: [
-        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/hat.png" },
-        { id: 102, name: "หูหิ้ว", price: "50 บาท/โหล", image: "/handle.png" },
-        { id: 103, name: "กระดุม", price: "50 บาท/โหล", image: "/button.png" },
+        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/Addon-1.png" },
+        { id: 102, name: "หูหิ้ว บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-2.png" },
+        { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
       ],
     },
     {
@@ -242,10 +242,10 @@ export default function ProductPage() {
                           className="object-contain"
                         />
                       </div>
-                      <p className="text-center font-medium text-gray-700">
+                      <p className="text-center font-medium text-gray-700 text-[22px]">
                         {addon.name}
                       </p>
-                      <p className="text-center font-bold text-[#deb18a]">
+                      <p className="text-center font-bold text-[#deb18a] text-[22px]">
                         {addon.price}
                       </p>
                     </div>
