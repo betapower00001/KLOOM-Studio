@@ -9,7 +9,7 @@ import About from "@/components/About";
 import Services from "@/components/Services";
 import Stats from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";
-import Team from "@/components/Team";
+import Exaddon from "@/components/Exaddon";
 import Blog from "@/components/Blog";
 import Product from "@/components/Product";
 
@@ -39,7 +39,7 @@ export default function HomeClient() {
           <Services />
           <Stats />
           <Testimonials />
-          <Team />
+          <Exaddon />
           <Blog />
         </main>
       )}
