@@ -1,27 +1,54 @@
-export default function Blog() {
+export default function Portfolio() {
+  const projects = [
+    {
+      id: 1,
+      title: "เว็บไซต์ร้านตัดสูทหรู",
+      desc: "ออกแบบและพัฒนาเว็บไซต์สั่งตัดสูทเฉพาะบุคคลด้วยดีไซน์เรียบหรู",
+      img: "/EX-1.jpg",
+    },
+    {
+      id: 2,
+      title: "เว็บโชว์คอลเลกชันแฟชั่น",
+      desc: "ดีไซน์เว็บไซต์นำเสนอคอลเลกชันเสื้อผ้าแฟชั่นในสไตล์โมเดิร์น",
+      img: "/EX-2.jpg",
+    },
+    {
+      id: 3,
+      title: "เว็บแสดงผลงานออกแบบ",
+      desc: "จัดทำเว็บไซต์พอร์ตโฟลิโอสำหรับดีไซเนอร์พร้อมระบบแกลเลอรี",
+      img: "/EX-3.jpg",
+    },
+  ];
+
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-[#f9f9f9]">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-10">Latest News</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((post) => (
+        <h2 className="text-4xl font-bold text-center mb-12 text-[#454456]">
+          ตัวอย่างผลงานของเรา
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-10">
+          {projects.map((item) => (
             <div
-              key={post}
-              className="bg-white shadow rounded-lg overflow-hidden"
+              key={item.id}
+              className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300"
             >
               <img
-                src={`/blog${post}.jpg`}
-                alt="Blog"
-                className="w-full h-40 object-cover"
+                src={item.img}
+                alt={item.title}
+                className="w-full h-56 object-cover"
               />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">
-                  How to Choose the Best Suit
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-semibold text-[#454456] mb-2">
+                  {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm">
-                  Learn how to select the perfect tailored suit for any
-                  occasion.
-                </p>
+                <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
+                <a
+                  href="#"
+                  className="inline-block px-5 py-2 rounded-full bg-[#deb18a] text-white font-medium hover:bg-[#c69d7d] transition"
+                >
+                  ดูรายละเอียด
+                </a>
               </div>
             </div>
           ))}
