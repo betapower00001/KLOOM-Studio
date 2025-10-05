@@ -13,9 +13,9 @@ export default function ProductPage() {
           id: 1,
           name: "พีวีซีใส / พีวีซีใส",
           desc: "ขนาด 25x37 นิ้ว",
-          mainImage: "/PVC-Clear.png",
+          mainImage: "/PVC-Clear-25x37.png",
           colors: [
-            { id: "clear", image: "/PVC-Clear.png", label: "ใส", price: "400 บาท/โหล" },
+            { id: "clear", image: "/PVC-Clear-25x37.png", label: "ใส", price: "400 บาท/โหล" },
           ],
         },
         {
@@ -27,7 +27,7 @@ export default function ProductPage() {
             { id: "white", image: "/PVC-Spon-white.png", label: "ขาว", price: "400 บาท/โหล" },
             { id: "gray", image: "/PVC-Spon-gray.png", label: "เทา", price: "400 บาท/โหล" },
             { id: "beige", image: "/PVC-Spon-beige.png", label: "เบจ(เนื้อ)", price: "400 บาท/โหล" },
-            { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต", price: "450 บาท/โหล" },
+            { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต", price: "400 บาท/โหล" },
             { id: "blue", image: "/PVC-Spon-blue.png", label: "กรมท่า", price: "400 บาท/โหล" },
             { id: "black", image: "/PVC-Spon-black.png", label: "ดำ", price: "400 บาท/โหล" },
           ],
@@ -60,29 +60,32 @@ export default function ProductPage() {
       products: [
         {
           id: 4,
-          name: "เนื้อผ้าใส",
-          desc: "สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี",
-          mainImage: "/Pro-2---red.png",
+          name: "พีวีซีใส / พีวีซีใส",
+          desc: "ขนาด 25x55 นิ้ว",
+          mainImage: "/PVC-Clear.png",
           colors: [
-            { id: "red", image: "/Pro-2---red.png", label: "Red", price: "350 บาท/โหล" },
-            { id: "blue", image: "/Pro-2---blue.png", label: "Blue", price: "360 บาท/โหล" },
+            { id: "clear", image: "/PVC-Clear.png", label: "ใส", price: "700 บาท/โหล" },
           ],
         },
         {
           id: 5,
-          name: "เนื้อผ้าหนา",
-          desc: "สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี",
-          mainImage: "/Pro-2---blue.png",
+                name: "พีวีซีใส / สปันบอนด์",
+          desc: "ขนาด 25x55 นิ้ว",
+          mainImage: "/PVC-spon25x55-white.png",
           colors: [
-            { id: "red", image: "/Pro-2---red.png", label: "Red", price: "400 บาท/โหล" },
-            { id: "blue", image: "/Pro-2---blue.png", label: "Blue", price: "420 บาท/โหล" },
+            { id: "white", image: "/PVC-spon25x55-white.png", label: "ขาว", price: "700 บาท/โหล" },
+            { id: "gray", image: "/PVC-spon25x55-gray.png", label: "เทา", price: "700 บาท/โหล" },
+            { id: "beige", image: "/PVC-spon25x55-beige.png", label: "เบจ(เนื้อ)", price: "700 บาท/โหล" },
+            { id: "brow", image: "/PVC-spon25x55-brow.png", label: "น้ำตาลช็อคโกแลต", price: "700 บาท/โหล" },
+            { id: "blue", image: "/PVC-spon25x55-blue.png", label: "กรมท่า", price: "700 บาท/โหล" },
+            { id: "black", image: "/PVC-spon25x55-black.png", label: "ดำ", price: "700 บาท/โหล" },
           ],
         },
       ],
       addons: [
-        { id: 104, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/hat.png" },
-        { id: 105, name: "หูหิ้ว", price: "50 บาท/โหล", image: "/handle.png" },
-        { id: 106, name: "กระดุม", price: "50 บาท/โหล", image: "/button.png" },
+        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/Addon-1.png" },
+        { id: 102, name: "หูหิ้ว บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-2.png" },
+        { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
       ],
     },
   ];
@@ -197,10 +200,9 @@ export default function ProductPage() {
                                 handleColorClick(product.id, color.image, color.price)
                               }
                               className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition
-                                ${
-                                  selectedVariants[product.id].image === color.image
-                                    ? "border-gray-800 shadow-md"
-                                    : "border-gray-200 hover:border-gray-400"
+                                ${selectedVariants[product.id].image === color.image
+                                  ? "border-gray-800 shadow-md"
+                                  : "border-gray-200 hover:border-gray-400"
                                 }`}
                             >
                               <div className="relative w-full h-20">
