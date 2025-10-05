@@ -10,11 +10,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Team", href: "#team" },
-    { name: "Blog", href: "#blog" },
-    { name: "Contact", href: "#contact" },
+    { name: "เกี่ยวกับ", href: "#about" },
+    { name: "บริการ", href: "#services" },
+    { name: "ฟงชั่นเสริม", href: "#team" },
+    { name: "สินค้า", href: "#blog" },
+    { name: "ติดต่อ", href: "#contact" },
   ];
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function Navbar() {
               className="hidden md:block ml-auto px-5 py-2 rounded-lg shadow transition-all duration-300 hover:bg-[#c69a70] fc-font"
               style={{ backgroundColor: "#deb18a", color: "#fff" }}
             >
-              Book Now
+              ติดต่อเรา
             </Link>
           )}
 

@@ -1,40 +1,59 @@
+"use client";
+
 export default function Team() {
+  const addons = [
+    {
+      img: "/AddonEx-1.png",
+      title: "เพิ่มหมวกด้านหน้า",
+      desc: "ดีไซน์เรียบหรู เพิ่มความสะดวกและเสริมความพรีเมียมให้กับสินค้า",
+    },
+    {
+      img: "/AddonEx-1.png",
+      title: "เพิ่มหูหิ้ว บน-ล่าง",
+      desc: "รายละเอียดที่สะท้อนถึงความประณีตและความใส่ใจในทุกขั้นตอน",
+    },
+    {
+      img: "/AddonEx-1.png",
+      title: "เพิ่มกระดุม",
+      desc: "ปรับแต่งเฉพาะตัวให้ตรงกับสไตล์ของคุณอย่างเหนือระดับ",
+    },
+  ];
+
   return (
-    <section className="py-16 container mx-auto px-6">
-      <h2 className="text-3xl font-bold text-center mb-10">ฟังก์ชันเสริมที่เลือกได้</h2>
-      <div className="grid md:grid-cols-3 gap-8 text-center">
-        {/* Box 1 */}
-        <div className="p-6 bg-white shadow rounded-lg">
-          <img
-            src="/AddonEx-1.png"   // ใส่ชื่อไฟล์ของคุณเอง
-            alt="หูหิ้ว"
-            className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
-          />
-          <h3 className="text-xl font-semibold">เพิ่มหูหิ้ว</h3>
-          <p className="text-gray-600">ตัวเลือกเสริม</p>
+    <section className="py-24 bg-[#454456] text-white">
+      <div className="container mx-auto px-6 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold mb-16 text-[#deb18a] tracking-wide">
+          ฟังก์ชันเสริมที่เลือกได้
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-10">
+          {addons.map((item, index) => (
+            <div
+              key={index}
+              className="group bg-[#56556a]/30 border border-[#deb18a]/20 rounded-2xl overflow-hidden shadow-md hover:shadow-[0_0_25px_rgba(222,177,138,0.3)] transition-all duration-500 backdrop-blur-sm"
+            >
+              <div className="overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-semibold mb-3 text-[#deb18a] group-hover:text-[#f1cfa3] transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Box 2 */}
-        <div className="p-6 bg-white shadow rounded-lg">
-          <img
-            src="/team2.jpg"   // เปลี่ยนเป็นไฟล์อื่นที่คุณใส่ไว้
-            alt="กระดุม"
-            className="w-32 h-32 mx-auto mb-4 object-cover"
-          />
-          <h3 className="text-xl font-semibold">เพิ่มกระดุม</h3>
-          <p className="text-gray-600">ตัวเลือกเสริม</p>
-        </div>
-
-        {/* Box 3 */}
-        <div className="p-6 bg-white shadow rounded-lg">
-          <img
-            src="/team3.jpg"
-            alt="อื่นๆ"
-            className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
-          />
-          <h3 className="text-xl font-semibold">ฟังก์ชันอื่นๆ</h3>
-          <p className="text-gray-600">เพิ่มเติมตามต้องการ</p>
-        </div>
+        <p className="text-[#deb18a]/60 text-sm mt-12 tracking-widest uppercase">
+          Elegance • Craftsmanship • Personalization
+        </p>
       </div>
     </section>
   );
