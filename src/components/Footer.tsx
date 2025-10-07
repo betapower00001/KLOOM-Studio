@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -42,14 +43,19 @@ export default function Footer() {
             Explore
           </h3>
           <ul className="space-y-2 text-sm">
-            {["หน้าแรก", "คอลเลกชัน", "บริการตัดเย็บ", "ติดต่อเรา"].map((item, idx) => (
+            {[
+              { name: "หน้าแรก", path: "/" },
+              { name: "คอลเลกชัน", path: "/collection" },
+              { name: "บริการตัดเย็บ", path: "/services" },
+              { name: "ติดต่อเรา", path: "/contact" },
+            ].map((item, idx) => (
               <li key={idx}>
-                <a
-                  href="/"
+                <Link
+                  href={item.path}
                   className="hover:text-[#deb18a] transition-colors duration-300 hover:underline"
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -71,15 +77,30 @@ export default function Footer() {
             Follow Us
           </h3>
           <div className="flex flex-col space-y-2 text-sm text-gray-300">
-            {["Facebook", "Instagram", "Line Official"].map((social, idx) => (
-              <a
-                key={idx}
-                href="#"
-                className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
-              >
-                {social}
-              </a>
-            ))}
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+            >
+              Facebook
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://line.me/ti/p/~kloomstudio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+            >
+              Line Official
+            </a>
           </div>
         </div>
       </div>
