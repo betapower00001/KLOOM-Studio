@@ -66,7 +66,7 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-[#deb18a] mb-3 uppercase">
             Contact
           </h3>
-          <p className="text-sm text-gray-300 mb-1">📍 123 Luxury Avenue, Bangkok, Thailand</p>
+          <p className="text-sm text-gray-300 mb-1">📍 123  Avenue, Bangkok, Thailand</p>
           <p className="text-sm text-gray-300 mb-1">📞 +66 99-999-9999</p>
           <p className="text-sm text-gray-300">✉️ info@kloomstudio.com</p>
         </div>
