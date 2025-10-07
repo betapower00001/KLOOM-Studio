@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="flex items-center space-x-3">
             <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}>
               <Image
-                src="/logo-gold.png"
+                src="/logo.png"
                 alt="KLOOM Studio Logo"
                 width={42}
                 height={42}
