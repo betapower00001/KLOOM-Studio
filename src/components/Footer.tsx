@@ -32,8 +32,8 @@ export default function Footer() {
               KLOOM Studio
             </h2>
           </div>
-          <p className="text-sm text-gray-300 leading-relaxed max-w-sm">
-            ความหรูหราที่สั่งตัดได้ — ออกแบบเฉพาะคุณด้วยความประณีตและสไตล์เหนือระดับ
+          <p className="text-sm text-gray-300 leading-relaxed max-w-sm text-center">
+            ความหรูหราที่สั่งตัดได้<br />ออกแบบเฉพาะคุณด้วยความประณีตและสไตล์เหนือระดับ
           </p>
         </div>
 
