@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { Facebook, Instagram, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -18,24 +19,29 @@ export default function Footer() {
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
         {/* Brand Section */}
         <div className="space-y-4">
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-col items-center">
             <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}>
               <Image
-                src="/logo.png"
+                src="/logo-white.png"
                 alt="KLOOM Studio Logo"
-                width={42}
-                height={42}
+                width={120}
+                height={80}
                 className="opacity-90"
               />
             </motion.div>
-            <h2 className="text-2xl font-bold uppercase tracking-[0.15em] bg-gradient-to-r from-[#f5e6c8] via-[#deb18a] to-[#f5e6c8] text-transparent bg-clip-text drop-shadow-[0_1px_3px_rgba(255,255,255,0.15)]">
+
+            <h2 className="mt-1 text-2xl font-bold uppercase tracking-[0.15em] bg-gradient-to-r from-[#f5e6c8] via-[#deb18a] to-[#f5e6c8] text-transparent bg-clip-text drop-shadow-[0_1px_3px_rgba(255,255,255,0.15)]">
               KLOOM Studio
             </h2>
           </div>
+
           <p className="text-sm text-gray-300 leading-relaxed max-w-sm text-center">
-            ความหรูหราที่สั่งตัดได้<br />ออกแบบเฉพาะคุณด้วยความประณีตและสไตล์เหนือระดับ
+            จำหน่ายถุงคลุมชุดทุกประเภท ปลีก-ส่ง <br />
+            มีบริการรับสกรีนโลโก้
+            จัดส่งทั่วประเทศ
           </p>
         </div>
+
 
         {/* Explore */}
         <div>
@@ -66,9 +72,9 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-[#deb18a] mb-3 uppercase">
             Contact
           </h3>
-          <p className="text-sm text-gray-300 mb-1">📍 123-Avenue, Bangkok, Thailand</p>
-          <p className="text-sm text-gray-300 mb-1">📞 +66 99-999-9999</p>
-          <p className="text-sm text-gray-300">✉️ info@kloomstudio.com</p>
+          <p className="text-sm text-gray-300 mb-1">📍215 เพชรเกษม 28 แยก 22 เขตภาษีเจริญ กรุงเทพมหานคร 10160.</p>
+          <p className="text-sm text-gray-300 mb-1">📞 088-642-4699</p>
+          <p className="text-sm text-gray-300">✉️ gowgalz@gmail.com</p>
         </div>
 
         {/* Social */}
@@ -78,28 +84,33 @@ export default function Footer() {
           </h3>
           <div className="flex flex-col space-y-2 text-sm text-gray-300">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/people/%E0%B8%96%E0%B8%B8%E0%B8%87%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B8%AA%E0%B8%B9%E0%B8%97-%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%A3%E0%B8%B2%E0%B8%95%E0%B8%A3%E0%B8%B5-KLOOM-Studio/61577163384916/?mibextid=wwXIfr&rdid=xnI0XTuHCs5WYaPl&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1RCkww9bGL%2F%3Fmibextid%3DwwXIfr"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+              className="flex items-center space-x-2 hover:text-[#deb18a] transition-transform duration-300 hover:scale-105"
             >
-              Facebook
+              <Facebook size={16} />
+              <span>Facebook</span>
             </a>
+
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+              className="flex items-center space-x-2 hover:text-[#deb18a] transition-transform duration-300 hover:scale-105"
             >
-              Instagram
+              <Instagram size={16} />
+              <span>Instagram</span>
             </a>
+
             <a
               href="https://line.me/ti/p/~kloomstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#deb18a] transition-colors duration-300 hover:scale-105"
+              className="flex items-center space-x-2 hover:text-[#deb18a] transition-transform duration-300 hover:scale-105"
             >
-              Line Official
+              <MessageCircle size={16} />
+              <span>Line Official</span>
             </a>
           </div>
         </div>
