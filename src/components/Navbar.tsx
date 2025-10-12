@@ -14,7 +14,7 @@ export default function Navbar() {
     { name: "บริการ", href: "#Services" },
     { name: "ฟงชั่นเสริม", href: "#Exaddon" },
     { name: "สินค้า", href: "#Product" },
-    { name: "ติดต่อ", href: "#contact" },
+    { name: "ติดต่อ", href: "#Footer" },
   ];
 
   useEffect(() => {

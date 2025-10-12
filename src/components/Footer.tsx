@@ -14,7 +14,7 @@ export default function Footer() {
       className="relative text-white py-16 overflow-hidden bg-gradient-to-b from-[#454456] to-[#2e2e3a] tracking-wide"
     >
       {/* เส้นแสงทองด้านบน กระพริบเบา ๆ */}
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/30 via-[#deb18a] to-[#deb18a]/30 animate-pulse-slow" />
+      <div id="Footer"className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/30 via-[#deb18a] to-[#deb18a]/30 animate-pulse-slow" />
 
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
         {/* Brand Section */}
