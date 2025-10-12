@@ -28,7 +28,7 @@ export default function ServiceSection() {
   ];
 
   return (
-    <section className="w-full">
+    <section id="Services" className="w-full">
       {/* Top section */}
       <div className="grid md:grid-cols-2">
         {/* Left image */}

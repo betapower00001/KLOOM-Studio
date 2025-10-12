@@ -13,14 +13,14 @@ export default function Team() {
       desc: "รายละเอียดที่สะท้อนถึงความประณีตและความใส่ใจในทุกขั้นตอน",
     },
     {
-      img: "/AddonEx-1.png",
+      img: "/AddonEx-3.png",
       title: "เพิ่มกระดุม",
       desc: "ปรับแต่งเฉพาะตัวให้ตรงกับสไตล์ของคุณอย่างเหนือระดับ",
     },
   ];
 
   return (
-    <section className="py-24 bg-[#454456] text-white">
+    <section id="Exaddon" className="py-24 bg-[#454456] text-white">
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-16 text-[#deb18a] tracking-wide">
           ฟังก์ชันเสริมที่เลือกได้

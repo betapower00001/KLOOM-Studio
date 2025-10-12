@@ -69,7 +69,7 @@ export default function ProductPage() {
         },
         {
           id: 5,
-                name: "พีวีซีใส / สปันบอนด์",
+          name: "พีวีซีใส / สปันบอนด์",
           desc: "ขนาด 25x55 นิ้ว",
           mainImage: "/PVC-spon25x55-white.png",
           colors: [
@@ -79,6 +79,22 @@ export default function ProductPage() {
             { id: "brow", image: "/PVC-spon25x55-brow.png", label: "น้ำตาลช็อคโกแลต", price: "700 บาท/โหล" },
             { id: "blue", image: "/PVC-spon25x55-blue.png", label: "กรมท่า", price: "700 บาท/โหล" },
             { id: "black", image: "/PVC-spon25x55-black.png", label: "ดำ", price: "700 บาท/โหล" },
+          ],
+        },
+        {
+          id: 6,
+          name: "สปันบอนด์ / สปันบอนด์",
+          desc: "ขนาด 25x55 นิ้ว",
+          mainImage: "/spon25x55-white.png",
+          colors: [
+            { id: "white", image: "/spon25x55-white.png", label: "ขาว", price: "900 บาท/โหล" },
+            { id: "gray", image: "/spon25x55-gray.png", label: "เทา", price: "900 บาท/โหล" },
+            { id: "beige", image: "/spon25x55-beige.png", label: "เบจ(เนื้อ)", price: "900 บาท/โหล" },
+            { id: "brow", image: "/spon25x55-brow.png", label: "น้ำตาลช็อคโกแลต", price: "900 บาท/โหล" },
+            { id: "blue", image: "/spon25x55-blue.png", label: "กรมท่า", price: "900 บาท/โหล" },
+            { id: "black", image: "/spon25x55-black.png", label: "ดำ", price: "900 บาท/โหล" },
+            { id: "green", image: "/spon25x55-green.png", label: "เขียว", price: "900 บาท/โหล" },
+            { id: "red", image: "/spon25x55-red.png", label: "แดง", price: "900 บาท/โหล" },
           ],
         },
       ],
@@ -121,7 +137,7 @@ export default function ProductPage() {
   };
 
   return (
-    <section className="w-full bg-gray-50 px-4 md:px-10 py-10">
+    <section id="Product" className="w-full bg-gray-50 px-4 md:px-10 py-10">
       <header className="text-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800">
           ถุงคลุมชุดสูท

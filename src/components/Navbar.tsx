@@ -11,9 +11,9 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "เกี่ยวกับ", href: "#about" },
-    { name: "บริการ", href: "#services" },
-    { name: "ฟงชั่นเสริม", href: "#team" },
-    { name: "สินค้า", href: "#blog" },
+    { name: "บริการ", href: "#Services" },
+    { name: "ฟงชั่นเสริม", href: "#Exaddon" },
+    { name: "สินค้า", href: "#Product" },
     { name: "ติดต่อ", href: "#contact" },
   ];
 
