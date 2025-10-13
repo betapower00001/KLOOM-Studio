@@ -42,7 +42,7 @@ export default function RootLayout({
       <head>
         {/* เพิ่ม meta tags ที่สำคัญ */}
         <meta name="robots" content="index, follow" />
-        <meta name="author" content="Tailor Shop" />
+        <meta name="author" content="KLOOM Studio" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* JSON-LD สำหรับ LocalBusiness */}
@@ -50,19 +50,19 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
+              "@context": "https://www.kloomsuit.com/",
               "@type": "LocalBusiness",
-              name: "Tailor Shop",
-              image: "https://www.yourtailorshop.com/logo.png",
+              name: "KLOOM Studio",
+              image: "https://www.kloomsuit.com/",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "123 ถนนตัวอย่าง",
+                streetAddress: "215 เพชรเกษม 28 แยก 22 เขตภาษีเจริญ",
                 addressLocality: "กรุงเทพฯ",
-                postalCode: "10100",
+                postalCode: "10160",
                 addressCountry: "TH",
               },
-              telephone: "+66-123-4567",
-              url: "https://www.yourtailorshop.com",
+              telephone: "088-642-4699",
+              url: "https://www.kloomsuit.com/",
             }),
           }}
         />

@@ -12,7 +12,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "เกี่ยวกับ", href: "#about" },
     { name: "บริการ", href: "#Services" },
-    { name: "ฟงชั่นเสริม", href: "#Exaddon" },
+    { name: "ฟังชั่นเสริม", href: "#Exaddon" },
     { name: "สินค้า", href: "#Product" },
     { name: "ติดต่อ", href: "#Footer" },
   ];
