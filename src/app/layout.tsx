@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tailor Shop",
+    title: "KLOOM Studio",
     description: "บริการตัดชุดสั่งตัดเฉพาะตัว",
-    images: ["/og-image.png"],
+    images: ["/logo.png"],
   },
 };
 
