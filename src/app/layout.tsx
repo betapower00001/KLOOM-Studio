@@ -4,19 +4,19 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.yourtailorshop.com"), // ✅ ใส่ domain จริงของคุณ
-  title: "Tailor Shop – ชุดสั่งตัดเฉพาะตัว",
+  metadataBase: new URL("https://www.kloomsuit.com/"), // ✅ ใส่ domain จริงของคุณ
+  title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
   description: "บริการตัดชุดสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-  keywords: ["Tailor", "ชุดสั่งตัด", "Tailor Shop", "ตัดชุด"],
-  authors: [{ name: "Tailor Shop" }],
+  keywords: ["KLOOM Studio", "ชุดคุลมสูท", "KLOOM Studio", "ออกแบบชุดคลุมสูท"],
+  authors: [{ name: "KLOOM Studio" }],
   openGraph: {
-    title: "Tailor Shop – ชุดสั่งตัดเฉพาะตัว",
+    title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
     description: "บริการตัดชุดสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-    url: "https://www.yourtailorshop.com",
-    siteName: "Tailor Shop",
+    url: "https://www.kloomsuit.com/",
+    siteName: "KLOOM Studio",
     images: [
       {
-        url: "/og-image.png",
+        url: "/logo.png",
         width: 1200,
         height: 630,
       },
