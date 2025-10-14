@@ -5,13 +5,13 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.kloomsuit.com/"), // ✅ ใส่ domain จริงของคุณ
-  title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
-  description: "บริการตัดชุดสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
+  title: "KLOOM Studio – บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
+  description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
   keywords: ["KLOOM Studio", "ชุดคุลมสูท", "KLOOM Studio", "ออกแบบชุดคลุมสูท"],
   authors: [{ name: "KLOOM Studio" }],
   openGraph: {
     title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
-    description: "บริการตัดชุดสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
+    description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
     url: "https://www.kloomsuit.com/",
     siteName: "KLOOM Studio",
     images: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "KLOOM Studio",
-    description: "บริการตัดชุดสั่งตัดเฉพาะตัว",
+    description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
     images: ["/logo.png"],
   },
 };
