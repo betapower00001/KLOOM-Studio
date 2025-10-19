@@ -104,6 +104,56 @@ export default function ProductPage() {
         { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
       ],
     },
+{
+      size: "25x65 นิ้ว",
+      products: [
+        {
+          id: 7,
+          name: "พีวีซีใส / พีวีซีใส",
+          desc: "ขนาด 25x65 นิ้ว",
+          mainImage: "/PVC-Clear-25x65.png",
+          colors: [
+            { id: "clear", image: "/PVC-Clear-25x65.png", label: "ใส", price: "800 บาท/โหล" },
+          ],
+        },
+        {
+          id: 8,
+          name: "พีวีซีใส / สปันบอนด์",
+          desc: "ขนาด 25x65 นิ้ว",
+          mainImage: "/PVCspon-25x65---white.png",
+          colors: [
+            { id: "white", image: "/PVCspon-25x65---white.png", label: "ขาว", price: "800 บาท/โหล" },
+            { id: "gray", image: "/PVCspon-25x65---gray.png", label: "เทา", price: "800 บาท/โหล" },
+            { id: "beige", image: "/PVCspon-25x65---beige.png", label: "เบจ(เนื้อ)", price: "800 บาท/โหล" },
+            { id: "brow", image: "/PVCspon-25x65---brow.png", label: "น้ำตาลช็อคโกแลต", price: "800 บาท/โหล" },
+            { id: "blue", image: "/PVCspon-25x65---blue.png", label: "กรมท่า", price: "800 บาท/โหล" },
+            { id: "black", image: "/PVCspon-25x65---black.png", label: "ดำ", price: "800 บาท/โหล" },
+          ],
+        },
+        {
+          id: 9,
+          name: "สปันบอนด์ / สปันบอนด์",
+          desc: "ขนาด 25x65 นิ้ว",
+          mainImage: "/spon-25x65---white.png",
+          colors: [
+            { id: "white", image: "/spon-25x65---white.png", label: "ขาว", price: "1,000 บาท/โหล" },
+            { id: "gray", image: "/spon-25x65---gray.png", label: "เทา", price: "1,000 บาท/โหล" },
+            { id: "beige", image: "/spon-25x65---beige.png", label: "เบจ(เนื้อ)", price: "1,000 บาท/โหล" },
+            { id: "brow", image: "/spon-25x65---brow.png", label: "น้ำตาลช็อคโกแลต", price: "1,000 บาท/โหล" },
+            { id: "blue", image: "/spon-25x65---blue.png", label: "กรมท่า", price: "1,000 บาท/โหล" },
+            { id: "black", image: "/spon-25x65---black.png", label: "ดำ", price: "1,000 บาท/โหล" },
+            { id: "green", image: "/spon-25x65---green.png", label: "เขียว", price: "1,000 บาท/โหล" },
+            { id: "red", image: "/spon-25x65---red.png", label: "แดง", price: "1,000 บาท/โหล" },
+          ],
+        },
+      ],
+      addons: [
+        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/Addon-1.png" },
+        { id: 102, name: "หูหิ้ว บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-2.png" },
+        { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
+      ],
+    },
+    
   ];
 
   // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา

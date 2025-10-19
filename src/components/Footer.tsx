@@ -14,7 +14,7 @@ export default function Footer() {
       className="relative text-white py-16 overflow-hidden bg-gradient-to-b from-[#454456] to-[#2e2e3a] tracking-wide"
     >
       {/* เส้นแสงทองด้านบน กระพริบเบา ๆ */}
-      <div id="Footer"className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/30 via-[#deb18a] to-[#deb18a]/30 animate-pulse-slow" />
+      <div id="Footer" className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/30 via-[#deb18a] to-[#deb18a]/30 animate-pulse-slow" />
 
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
         {/* Brand Section */}
@@ -58,10 +58,11 @@ export default function Footer() {
               <li key={idx}>
                 <Link
                   href={item.path}
-                  className="hover:text-[#deb18a] transition-colors duration-300 hover:underline"
+                  className="text-gray-200 md:text-white hover:text-[#deb18a] transition-colors duration-300 hover:underline"
                 >
                   {item.name}
                 </Link>
+
               </li>
             ))}
           </ul>
@@ -104,7 +105,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://line.me/ti/p/~kloomstudio"
+              href="https://line.me/ti/p/~@kloomstudio"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 hover:text-[#deb18a] transition-transform duration-300 hover:scale-105"
