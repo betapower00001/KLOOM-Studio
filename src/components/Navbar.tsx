@@ -10,11 +10,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
-    { name: "เกี่ยวกับ", href: "#about" },
-    { name: "บริการ", href: "#Services" },
-    { name: "ฟังชั่นเสริม", href: "#Exaddon" },
-    { name: "สินค้า", href: "#Product" },
-    { name: "ติดต่อ", href: "#Footer" },
+  { name: "เกี่ยวกับ", href: "/#about" },
+  { name: "บริการ", href: "/#Services" },
+  { name: "ฟังชั่นเสริม", href: "/#Exaddon" },
+  { name: "สินค้า", href: "/#Product" },
+  { name: "ติดต่อ", href: "/#Footer" },
   ];
 
   useEffect(() => {
