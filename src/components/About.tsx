@@ -23,9 +23,18 @@ export default function HeroSection() {
           </p>
 
           {/* Button */}
-          <button className="bg-[#deb18a] text-white px-6 py-3 font-normal text-[22px] tracking-wide hover:bg-[#876748] transition mb-6">
-            อ่านเพิ่มเติม
-          </button>
+          <a
+            href="https://line.me/ti/p/~@kloomstudio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#deb18a] text-white px-6 py-3 font-normal text-[22px] tracking-wide hover:bg-[#876748] transition mb-6 inline-block"
+          >
+            ติดต่อปรึกษา
+          </a>
+
+
+
+
 
           {/* Phone */}
           <div className="flex items-center space-x-3 text-[#deb18a]">

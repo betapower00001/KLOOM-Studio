@@ -81,7 +81,7 @@ export default function Navbar() {
           {/* Book Now (เฉพาะตอนยังไม่ scroll) */}
           {!scrolled && (
             <Link
-              href="#book"
+              href="https://www.facebook.com/people/%E0%B8%96%E0%B8%B8%E0%B8%87%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B8%AA%E0%B8%B9%E0%B8%97-%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%A3%E0%B8%B2%E0%B8%95%E0%B8%A3%E0%B8%B5-KLOOM-Studio/61577163384916/?mibextid=wwXIfr&rdid=xnI0XTuHCs5WYaPl&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1RCkww9bGL%2F%3Fmibextid%3DwwXIfr"
               className="hidden md:block ml-auto px-5 py-2 rounded-lg shadow transition-all duration-300 hover:bg-[#c69a70] fc-font"
               style={{ backgroundColor: "#deb18a", color: "#fff" }}
             >
@@ -117,7 +117,7 @@ export default function Navbar() {
               ))}
               <li className="w-full">
                 <Link
-                  href="#book"
+                  href="https://line.me/ti/p/~@kloomstudio"
                   className="block text-center px-5 py-2 rounded-lg shadow transition duration-200 hover:bg-[#c69a70]"
                   style={{ backgroundColor: "#deb18a", color: "#fff" }}
                   onClick={() => setIsOpen(false)}

@@ -12,6 +12,8 @@ import Testimonials from "@/components/Testimonials";
 import Exaddon from "@/components/Exaddon";
 import Blog from "@/components/Blog";
 import Product from "@/components/Product";
+import Article from "@/components/Article";
+import Blogs from "@/app/blogs/page";
 
 export default function HomeClient() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +43,8 @@ export default function HomeClient() {
           <Testimonials />
           <Exaddon />
           <Blog />
+          <Article />
+          <Blogs />
         </main>
       )}
     </>

@@ -56,13 +56,18 @@ export default function ServiceSection() {
             บล็อคสกรีน 600.- /บล็อค /ขนาด (ขนาดไม่เกิน A3)
           </p>
           <p className="text-gray-300 mb-6 max-w-md text-[28px]">
-           ค่าสกรีน 1 จุด ต่อ 1 สี <br />
-           บล็อคมีอายุใช้งาน 1 ปี <br />
+            ค่าสกรีน 1 จุด ต่อ 1 สี <br />
+            บล็อคมีอายุใช้งาน 1 ปี <br />
           </p>
           {/* ปุ่มพอดีกับข้อความ */}
-          <button className="self-start w-max border border-white px-6 py-4 text-[20px] font-semibold hover:bg-[#876748] hover:text-white transition-all duration-300">
+          <a
+            href="https://line.me/ti/p/~@kloomstudio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="self-start w-max border border-white px-6 py-4 text-[20px] font-semibold hover:bg-[#876748] hover:text-white transition-all duration-300"
+          >
             ติดต่อสั่งทำ
-          </button>
+          </a>
         </div>
       </div>
       {/* Bottom service icons */}
