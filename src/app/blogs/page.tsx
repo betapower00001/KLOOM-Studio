@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function BlogsPage() {
@@ -30,7 +31,7 @@ export default function BlogsPage() {
       id: 4,
       title: "พีวีซีใส 0.8 มิล วัสดุถุงคลุมชุดสูท",
       desc: "วัสดุโปร่งใส เรียบหรู เหมาะกับแบรนด์ที่ต้องการโชว์คุณภาพของสินค้า.",
-      img: "Picblog-4.jpg",
+      img: "/Picblog-4.jpg",
       href: "/blogs/pvc-material-0.8mm",
     },
     {
@@ -74,12 +75,16 @@ export default function BlogsPage() {
                 href={a.href}
                 className="group block bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500"
               >
-                <motion.img
-                  src={a.img}
-                  alt={a.title}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                  whileHover={{ scale: 1.05 }}
-                />
+                <motion.div whileHover={{ scale: 1.05 }} className="overflow-hidden">
+                  <Image
+                    src={a.img}
+                    alt={a.title}
+                    width={800}
+                    height={600}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </motion.div>
+
                 <div className="p-8">
                   <h2 className="text-2xl font-semibold mb-4 text-[#2b2b2b] group-hover:text-[#b79c6d] transition">
                     {a.title}
