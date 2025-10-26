@@ -86,7 +86,7 @@ export default function BlogsPage() {
                 </motion.div>
 
                 <div className="p-8">
-                  <h2 className="text-2xl font-semibold mb-4 text-[#2b2b2b] group-hover:text-[#b79c6d] transition">
+                  <h2 className="text-2xl font-semibold mb-4 text-[#2b2b2b] group-hover:text-[#b79c6d] transition-colors">
                     {a.title}
                   </h2>
                   <p className="text-gray-600 leading-relaxed mb-6">{a.desc}</p>

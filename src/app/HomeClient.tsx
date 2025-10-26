@@ -10,10 +10,10 @@ import Services from "@/components/Services";
 import Stats from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";
 import Exaddon from "@/components/Exaddon";
-import Blog from "@/components/Blog";
+import Performance from "@/components/Performance";
 import Product from "@/components/Product";
 import Article from "@/components/Article";
-import Blogs from "@/app/blogs/page";
+import Blogs from "@/components/blogs/page";
 
 export default function HomeClient() {
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ export default function HomeClient() {
           <Stats />
           <Testimonials />
           <Exaddon />
-          <Blog />
+          <Performance />
           <Article />
           <Blogs />
         </main>
