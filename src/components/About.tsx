@@ -31,11 +31,6 @@ export default function HeroSection() {
           >
             ติดต่อปรึกษา
           </a>
-
-
-
-
-
           {/* Phone */}
           <div className="flex items-center space-x-3 text-[#deb18a]">
             {/* ไอคอนโทรศัพท์ด้านซ้าย */}
