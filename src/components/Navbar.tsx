@@ -4,17 +4,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const navLinks = [
-  { name: "เกี่ยวกับ", href: "/#about" },
-  { name: "บริการ", href: "/#Services" },
-  { name: "ฟังชั่นเสริม", href: "/#Exaddon" },
-  { name: "สินค้า", href: "/#Product" },
-  { name: "ติดต่อ", href: "/#Footer" },
+    { name: "เกี่ยวกับ", id: "about" },
+    { name: "บริการ", id: "Services" },
+    { name: "ฟังชั่นเสริม", id: "Exaddon" },
+    { name: "สินค้า", id: "Product" },
+    { name: "ติดต่อ", id: "Footer" },
   ];
 
   useEffect(() => {
@@ -22,6 +25,22 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // ฟังก์ชัน scroll ไปยัง section หน้าแรก
+  const scrollToSection = (id: string) => {
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+      // เลื่อนอัตโนมัติหลังโหลดหน้า
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false); // ปิด mobile menu
+  };
 
   return (
     <>
@@ -40,14 +59,18 @@ export default function Navbar() {
         .fade-slide {
           animation: fadeSlideDown 0.5s ease forwards;
         }
-        
+
+        html {
+          scroll-behavior: smooth;
+        }
       `}</style>
 
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          scrolled
             ? "py-3 bg-white/95 backdrop-blur-md shadow-xl fade-slide"
             : "py-5 bg-white shadow-md"
-          }`}
+        }`}
       >
         <nav className="container mx-auto px-6 flex items-center fc-font">
           {/* Logo */}
@@ -63,18 +86,19 @@ export default function Navbar() {
 
           {/* Desktop menu */}
           <div
-            className={`hidden md:flex items-center gap-8 font-medium ${scrolled ? "ml-auto" : "ml-12"
-              } fc-font`}
+            className={`hidden md:flex items-center gap-8 font-medium ${
+              scrolled ? "ml-auto" : "ml-12"
+            } fc-font`}
           >
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
                 className="relative transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[#deb18a] after:transition-all after:duration-300 hover:text-[#deb18a] hover:after:w-full"
                 style={{ color: "#454456" }}
               >
                 {link.name}
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -104,15 +128,14 @@ export default function Navbar() {
           <div className="md:hidden bg-white shadow-lg border-t fc-font">
             <ul className="flex flex-col items-center gap-6 py-6 font-medium">
               {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
+                <li key={link.id}>
+                  <button
+                    onClick={() => scrollToSection(link.id)}
                     className="transition-colors duration-200 hover:text-[#deb18a]"
-                    onClick={() => setIsOpen(false)}
                     style={{ color: "#454456" }}
                   >
                     {link.name}
-                  </Link>
+                  </button>
                 </li>
               ))}
               <li className="w-full">
