@@ -13,7 +13,7 @@ import Exaddon from "@/components/Exaddon";
 import Performance from "@/components/Performance";
 import Product from "@/components/Product";
 import Article from "@/components/Article";
-import Blogs from "@/components/blogs/page";
+import Blogs from "@/app/blogs/page";
 
 export default function HomeClient() {
   const [loading, setLoading] = useState(true);
