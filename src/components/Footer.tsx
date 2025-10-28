@@ -11,10 +11,16 @@ export default function Footer() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="relative text-white py-16 overflow-hidden bg-gradient-to-b from-[#454456] to-[#2e2e3a] tracking-wide"
+      className="relative text-white py-16 overflow-hidden bg-gradient-to-b from-[#2f2f3f] via-[#252532] to-[#1a1a24] tracking-wide"
     >
-      {/* เส้นแสงทองด้านบน กระพริบเบา ๆ */}
-      <div id="Footer" className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/30 via-[#deb18a] to-[#deb18a]/30 animate-pulse-slow" />
+      {/* เส้นแสงทองด้านบน */}
+      <div
+        id="Footer"
+        className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/40 via-[#deb18a] to-[#deb18a]/40 animate-pulse-slow z-20"
+      />
+
+      {/* 🔹 overlay สีดำบาง ๆ เพื่อให้เข้มขึ้นในมือถือ */}
+      <div className="absolute inset-0 bg-black/35 md:bg-black/25 pointer-events-none z-0" />
 
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
         {/* Brand Section */}
@@ -37,11 +43,9 @@ export default function Footer() {
 
           <p className="text-sm text-gray-300 leading-relaxed max-w-sm text-center">
             จำหน่ายถุงคลุมชุดทุกประเภท ปลีก-ส่ง <br />
-            มีบริการรับสกรีนโลโก้
-            จัดส่งทั่วประเทศ
+            มีบริการรับสกรีนโลโก้ จัดส่งทั่วประเทศ
           </p>
         </div>
-
 
         {/* Explore */}
         <div>
@@ -58,11 +62,10 @@ export default function Footer() {
               <li key={idx}>
                 <Link
                   href={item.path}
-                  className="text-gray-200 md:text-white hover:text-[#deb18a] transition-colors duration-300 hover:underline"
+                  className="text-gray-300 hover:text-[#deb18a] transition-colors duration-300 hover:underline"
                 >
                   {item.name}
                 </Link>
-
               </li>
             ))}
           </ul>
@@ -73,7 +76,9 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-[#deb18a] mb-3 uppercase">
             Contact
           </h3>
-          <p className="text-sm text-gray-300 mb-1">📍215 เพชรเกษม 28 แยก 22 เขตภาษีเจริญ กรุงเทพมหานคร 10160.</p>
+          <p className="text-sm text-gray-300 mb-1">
+            📍 215 เพชรเกษม 28 แยก 22 เขตภาษีเจริญ กรุงเทพมหานคร 10160
+          </p>
           <p className="text-sm text-gray-300 mb-1">📞 088-642-4699</p>
           <p className="text-sm text-gray-300">✉️ gowgalz@gmail.com</p>
         </div>
@@ -85,7 +90,7 @@ export default function Footer() {
           </h3>
           <div className="flex flex-col space-y-2 text-sm text-gray-300">
             <a
-              href="https://www.facebook.com/people/%E0%B8%96%E0%B8%B8%E0%B8%87%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B8%AA%E0%B8%B9%E0%B8%97-%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%A3%E0%B8%B2%E0%B8%95%E0%B8%A3%E0%B8%B5-KLOOM-Studio/61577163384916/?mibextid=wwXIfr&rdid=xnI0XTuHCs5WYaPl&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1RCkww9bGL%2F%3Fmibextid%3DwwXIfr"
+              href="https://www.facebook.com/people/%E0%B8%96%E0%B8%B8%E0%B8%87%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B8%AA%E0%B8%B9%E0%B8%97-%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%A3%E0%B8%B2%E0%B8%95%E0%B8%A3%E0%B8%B5-KLOOM-Studio/61577163384916"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 hover:text-[#deb18a] transition-transform duration-300 hover:scale-105"
@@ -123,7 +128,7 @@ export default function Footer() {
       </div>
 
       {/* แสงทอง radial gradient เคลื่อนไหว */}
-      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,_#deb18a_0%,_transparent_70%)] animate-gradient-move" />
+      <div className="absolute inset-0 opacity-25 bg-[radial-gradient(ellipse_at_top_right,_#deb18a_0%,_transparent_70%)] animate-gradient-move z-0" />
     </motion.footer>
   );
 }
