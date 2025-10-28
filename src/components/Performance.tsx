@@ -43,12 +43,7 @@ export default function Portfolio() {
                   {item.title}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
-                <a
-                  href="#"
-                  className="inline-block px-5 py-2 rounded-full bg-[#deb18a] text-white font-medium hover:bg-[#c69d7d] transition"
-                >
-                  ดูรายละเอียด
-                </a>
+
               </div>
             </div>
           ))}
