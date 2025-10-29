@@ -12,7 +12,7 @@ export default function Article() {
                 <div className="md:w-1/2 relative">
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent rounded-3xl pointer-events-none"></div>
                     <video
-                        src="/video.mp4"
+                        src="/video-1.mp4"
                         poster="/Picblog-1.jpg"
                         controls
                         autoPlay
