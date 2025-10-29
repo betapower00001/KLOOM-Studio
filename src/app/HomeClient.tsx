@@ -14,6 +14,7 @@ import Performance from "@/components/Performance";
 import Product from "@/components/Product";
 import Article from "@/components/Article";
 import Blogs from "@/app/blogs/page";
+import Video from "@/components/Video";
 
 export default function HomeClient() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ export default function HomeClient() {
         <main className="flex flex-col">
           <Hero />
           <About />
+          <Video />
           <Product />
           <Services />
           <Stats />
