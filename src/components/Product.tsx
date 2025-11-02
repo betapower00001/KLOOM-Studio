@@ -104,7 +104,7 @@ export default function ProductPage() {
         { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
       ],
     },
-{
+    {
       size: "25x65 นิ้ว",
       products: [
         {
@@ -153,7 +153,60 @@ export default function ProductPage() {
         { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
       ],
     },
-    
+    {
+      size: "25x70 นิ้ว",
+      products: [
+        {
+          id: 7,
+          name: "พีวีซีใส / พีวีซีใส",
+          desc: "ขนาด 25x70 นิ้ว",
+          mainImage: "/PVC-Clear-25x70.png",
+          colors: [
+            { id: "clear", image: "/PVC-Clear-25x70.png", label: "ใส", price: "900 บาท/โหล" },
+          ],
+        },
+        {
+          id: 8,
+          name: "พีวีซีใส / สปันบอนด์",
+          desc: "ขนาด 25x70 นิ้ว",
+          mainImage: "/PVC-Spanpon-25x70-white.png",
+          colors: [
+            { id: "white", image: "/PVC-Spanpon-25x70-white.png", label: "ขาว", price: "900 บาท/โหล" },
+            { id: "gray", image: "/PVC-Spanpon-25x70-gray.png", label: "เทา", price: "900 บาท/โหล" },
+            { id: "beige", image: "/PVC-Spanpon-25x70-beige.png", label: "เบจ(เนื้อ)", price: "900 บาท/โหล" },
+            { id: "brow", image: "/PVC-Spanpon-25x70-brow.png", label: "น้ำตาลช็อคโกแลต", price: "900 บาท/โหล" },
+            { id: "blue", image: "/PVC-Spanpon-25x70-blue.png", label: "กรมท่า", price: "900 บาท/โหล" },
+            { id: "black", image: "/PVC-Spanpon-25x70-black.png", label: "ดำ", price: "900 บาท/โหล" },
+            { id: "geeen", image: "/PVC-Spanpon-25x70-green.png", label: "เขียว", price: "900 บาท/โหล" },
+            { id: "red", image: "/PVC-Spanpon-25x70-red.png", label: "แดง", price: "900 บาท/โหล" },
+          ],
+        },
+        {
+          id: 9,
+          name: "สปันบอนด์ / สปันบอนด์",
+          desc: "ขนาด 25x70 นิ้ว",
+          mainImage: "/Spanpon-25x70-white.png",
+          colors: [
+            { id: "white", image: "/Spanpon-25x70-white.png", label: "ขาว", price: "1,100 บาท/โหล" },
+            { id: "gray", image: "/Spanpon-25x70-gray.png", label: "เทา", price: "1,000 บาท/โหล" },
+            { id: "beige", image: "/Spanpon-25x70-beige.png", label: "เบจ(เนื้อ)", price: "1,100 บาท/โหล" },
+            { id: "brow", image: "/Spanpon-25x70-brow.png", label: "น้ำตาลช็อคโกแลต", price: "1,100 บาท/โหล" },
+            { id: "blue", image: "/Spanpon-25x70-blue.png", label: "กรมท่า", price: "1,100 บาท/โหล" },
+            { id: "black", image: "/Spanpon-25x70-black.png", label: "ดำ", price: "1,100 บาท/โหล" },
+            { id: "green", image: "/Spanpon-25x70-geen.png", label: "เขียว", price: "1,100 บาท/โหล" },
+            { id: "red", image: "/Spanpon-25x70-red.png", label: "แดง", price: "1,100 บาท/โหล" },
+          ],
+        },
+      ],
+      addons: [
+        { id: 101, name: "หมวกด้านหน้า", price: "50 บาท/โหล", image: "/Addon-1.png" },
+        { id: 102, name: "หูหิ้ว บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-2.png" },
+        { id: 103, name: "กระดุม บน-ล่าง", price: "50 บาท/โหล", image: "/Addon-3.png" },
+      ],
+    },
+
+
+
   ];
 
   // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา
