@@ -301,12 +301,17 @@ export default function ProductPage() {
 
   ];
 
-   // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา
-  const [selectedVariants, setSelectedVariants] = useState(
+  // selectedVariants type
+  const [selectedVariants, setSelectedVariants] = useState<
+    Record<number, { image: string; price: string }>
+  >(
     categories.reduce((acc, category) => {
-      category.products.forEach((product: any) => {
+      category.products.forEach((product) => {
         const defaultColor = product.colors[0];
-        acc[product.id] = { image: defaultColor.image, price: defaultColor.price };
+        acc[product.id] = {
+          image: defaultColor.image,
+          price: defaultColor.price
+        };
       });
       return acc;
     }, {} as Record<number, { image: string; price: string }>)
@@ -315,7 +320,7 @@ export default function ProductPage() {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // ✅ ref แบบถูกต้องกับ TypeScript
+  // refs (ใช้ object dictionary)
   const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -334,42 +339,42 @@ export default function ProductPage() {
     setSelectedVariants((prev) => ({ ...prev, [productId]: { image, price } }));
   };
 
-  // ✅ scroll offset function
-  const scrollToCategory = (categorySize: string, offset: number = 50) => {
-    const element = categoryRefs.current[categorySize];
-    if (element) {
-      const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
+  const scrollToCategory = (size: string, offset = 50) => {
+    const el = categoryRefs.current[size];
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
   return (
-    <section id="Product" className="w-full bg-gray-50 px-4 md:px-10 py-10">
+    <section className="w-full bg-gray-50 px-4 md:px-10 py-10">
+      {/* HEADER */}
       <header className="text-center mb-12">
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800">ถุงคลุมชุดสูท</h1>
-        <p className="text-gray-700 mt-2 text-lg sm:text-xl">สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี</p>
+        <p className="text-gray-700 mt-2 text-lg sm:text-xl">
+          สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี
+        </p>
       </header>
 
+      {/* LOOP CATEGORY */}
       {categories.map((category) => (
         <div
           key={category.size}
           ref={(el) => {
-            categoryRefs.current[category.size] = el; // ✅ callback ref คืนค่า void
+            categoryRefs.current[category.size] = el;
           }}
           className="mb-12"
         >
-          {/* MOBILE HEADER */}
+          {/* MOBILE CATEGORY BUTTON */}
           {isMobile && (
             <button
-              className="w-full flex justify-between items-center p-4 rounded-md mb-4"
-              style={{ background: "#deb18a" }}
+              className="w-full flex justify-between items-center p-4 rounded-md mb-4 bg-[#deb18a]"
               onClick={() => {
-                const newState = openCategory === category.size ? null : category.size;
-                setOpenCategory(newState);
-
-                // ✅ scroll ไปหัวข้อ + offset 50px
-                if (newState) {
-                  setTimeout(() => scrollToCategory(newState, 50), 150);
+                const nextState = openCategory === category.size ? null : category.size;
+                setOpenCategory(nextState);
+                if (nextState) {
+                  setTimeout(() => scrollToCategory(nextState), 150);
                 }
               }}
             >
@@ -378,7 +383,7 @@ export default function ProductPage() {
             </button>
           )}
 
-          {/* DESKTOP HEADER */}
+          {/* DESKTOP TITLE */}
           {!isMobile && (
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
               ขนาด {category.size}
@@ -388,8 +393,9 @@ export default function ProductPage() {
           {/* CONTENT */}
           {(!isMobile || openCategory === category.size) && (
             <>
+              {/* PRODUCT LIST */}
               <div className="flex flex-wrap -mx-4 mb-6">
-                {category.products.map((product: any) => (
+                {category.products.map((product) => (
                   <motion.div
                     key={product.id}
                     className="w-full md:w-1/2 px-4 mb-8"
@@ -399,7 +405,7 @@ export default function ProductPage() {
                     variants={fadeUp}
                   >
                     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col md:flex-row gap-6 items-center">
-                      {/* Product Image */}
+                      {/* IMAGE */}
                       <div className="w-full md:w-1/2 flex justify-center">
                         <div className="relative w-full sm:max-w-[400px] aspect-[4/5]">
                           <Image
@@ -407,31 +413,30 @@ export default function ProductPage() {
                             alt={product.name}
                             fill
                             className="object-contain"
-                            priority
                           />
                         </div>
                       </div>
 
-                      {/* Product Details */}
-                      <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left gap-4">
+                      {/* DETAILS */}
+                      <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-4 text-center md:text-left">
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-800">
                           {product.name}
                         </h3>
                         <p className="text-lg sm:text-xl text-gray-700">{product.desc}</p>
 
                         <p className="font-semibold text-gray-800 mt-2">Other colors</p>
+
                         <div className="flex gap-4 flex-wrap justify-center md:justify-start">
-                          {product.colors.map((color: any) => (
+                          {product.colors.map((color) => (
                             <div
                               key={color.id}
                               onClick={() =>
                                 handleColorClick(product.id, color.image, color.price)
                               }
-                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition ${
-                                selectedVariants[product.id].image === color.image
+                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition ${selectedVariants[product.id].image === color.image
                                   ? "border-gray-800 shadow-md"
                                   : "border-gray-200 hover:border-gray-400"
-                              }`}
+                                }`}
                             >
                               <div className="relative w-full h-20">
                                 <Image
@@ -461,8 +466,9 @@ export default function ProductPage() {
               <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
                 เพิ่มเติมจุดต่างๆ
               </h3>
+
               <div className="flex flex-wrap -mx-4">
-                {category.addons.map((addon: any) => (
+                {category.addons.map((addon) => (
                   <div key={addon.id} className="w-1/2 md:w-1/4 px-4 mb-6">
                     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col items-center gap-2">
                       <div className="relative w-full h-28">
