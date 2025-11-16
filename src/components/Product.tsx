@@ -64,9 +64,9 @@ export default function ProductPage() {
           id: 4,
           name: "พีวีซีใส / พีวีซีใส",
           desc: "ขนาด 25x55 นิ้ว",
-          mainImage: "/PVC-Clear.png",
+          mainImage: "/PVC-Clear-25x55.png",
           colors: [
-            { id: "clear", image: "/PVC-Clear.png", label: "ใส", price: "700 บาท/โหล" },
+            { id: "clear", image: "/PVC-Clear-25x55.png", label: "ใส", price: "700 บาท/โหล" },
           ],
         },
         {
