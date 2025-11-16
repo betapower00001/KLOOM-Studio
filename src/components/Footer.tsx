@@ -5,6 +5,14 @@ import Link from "next/link";
 import { Facebook, Instagram, MessageCircle } from "lucide-react";
 
 export default function Footer() {
+  const navLinks = [
+    { name: "เกี่ยวกับ", id: "about" },
+    { name: "บริการ", id: "Services" },
+    { name: "ฟังชั่นเสริม", id: "Exaddon" },
+    { name: "สินค้า", id: "Product" },
+    { name: "ติดต่อ", id: "Footer" },
+  ];
+
   return (
     <motion.footer
       initial={{ opacity: 0, y: 40 }}
@@ -19,7 +27,7 @@ export default function Footer() {
         className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#deb18a]/40 via-[#deb18a] to-[#deb18a]/40 animate-pulse-slow z-20"
       />
 
-      {/* 🔹 overlay สีดำบาง ๆ เพื่อให้เข้มขึ้นในมือถือ */}
+      {/* overlay ดำบาง */}
       <div className="absolute inset-0 bg-black/35 md:bg-black/25 pointer-events-none z-0" />
 
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 relative z-10">
@@ -53,15 +61,10 @@ export default function Footer() {
             Explore
           </h3>
           <ul className="space-y-2 text-sm">
-            {[
-              { name: "หน้าแรก", path: "/" },
-              { name: "คอลเลกชัน", path: "/collection" },
-              { name: "บริการตัดเย็บ", path: "/services" },
-              { name: "ติดต่อเรา", path: "/contact" },
-            ].map((item, idx) => (
+            {navLinks.map((item, idx) => (
               <li key={idx}>
                 <Link
-                  href={item.path}
+                  href={`#${item.id}`}
                   className="text-gray-300 hover:text-[#deb18a] transition-colors duration-300 hover:underline"
                 >
                   {item.name}
@@ -122,12 +125,12 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* เส้นขอบข้อความล่าง */}
+      {/* เส้นขอบล่าง */}
       <div className="border-t border-[#deb18a]/20 mt-12 pt-6 text-center text-sm text-gray-400 relative z-10">
         © 2025 <span className="text-[#deb18a] font-medium">KLOOM Studio</span>. All rights reserved.
       </div>
 
-      {/* แสงทอง radial gradient เคลื่อนไหว */}
+      {/* แสงทองเคลื่อนไหว */}
       <div className="absolute inset-0 opacity-25 bg-[radial-gradient(ellipse_at_top_right,_#deb18a_0%,_transparent_70%)] animate-gradient-move z-0" />
     </motion.footer>
   );
