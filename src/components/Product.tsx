@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 export default function ProductPage() {
@@ -271,10 +271,10 @@ export default function ProductPage() {
 
   ];
 
-  // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา
+   // เก็บ state ว่า product ไหนเลือกสีไหน พร้อมราคา
   const [selectedVariants, setSelectedVariants] = useState(
     categories.reduce((acc, category) => {
-      category.products.forEach((product) => {
+      category.products.forEach((product: any) => {
         const defaultColor = product.colors[0];
         acc[product.id] = { image: defaultColor.image, price: defaultColor.price };
       });
@@ -284,6 +284,9 @@ export default function ProductPage() {
 
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  // ✅ ref แบบถูกต้องกับ TypeScript
+  const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -301,44 +304,62 @@ export default function ProductPage() {
     setSelectedVariants((prev) => ({ ...prev, [productId]: { image, price } }));
   };
 
+  // ✅ scroll offset function
+  const scrollToCategory = (categorySize: string, offset: number = 50) => {
+    const element = categoryRefs.current[categorySize];
+    if (element) {
+      const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
     <section id="Product" className="w-full bg-gray-50 px-4 md:px-10 py-10">
       <header className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800">
-          ถุงคลุมชุดสูท
-        </h1>
-        <p className="text-gray-700 mt-2 text-lg sm:text-xl">
-          สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี
-        </p>
+        <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800">ถุงคลุมชุดสูท</h1>
+        <p className="text-gray-700 mt-2 text-lg sm:text-xl">สินค้าคุณภาพ วัสดุผลิตจากวัสดุชั้นดี</p>
       </header>
 
       {categories.map((category) => (
-        <div key={category.size} className="mb-12">
+        <div
+          key={category.size}
+          ref={(el) => {
+            categoryRefs.current[category.size] = el; // ✅ callback ref คืนค่า void
+          }}
+          className="mb-12"
+        >
+          {/* MOBILE HEADER */}
           {isMobile && (
             <button
               className="w-full flex justify-between items-center p-4 rounded-md mb-4"
               style={{ background: "#deb18a" }}
-              onClick={() =>
-                setOpenCategory(openCategory === category.size ? null : category.size)
-              }
+              onClick={() => {
+                const newState = openCategory === category.size ? null : category.size;
+                setOpenCategory(newState);
+
+                // ✅ scroll ไปหัวข้อ + offset 50px
+                if (newState) {
+                  setTimeout(() => scrollToCategory(newState, 50), 150);
+                }
+              }}
             >
               <span className="font-semibold text-lg">{category.size}</span>
-              <span className="text-xl">
-                {openCategory === category.size ? "−" : "+"}
-              </span>
+              <span className="text-xl">{openCategory === category.size ? "−" : "+"}</span>
             </button>
           )}
 
+          {/* DESKTOP HEADER */}
           {!isMobile && (
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
               ขนาด {category.size}
             </h2>
           )}
 
+          {/* CONTENT */}
           {(!isMobile || openCategory === category.size) && (
             <>
               <div className="flex flex-wrap -mx-4 mb-6">
-                {category.products.map((product) => (
+                {category.products.map((product: any) => (
                   <motion.div
                     key={product.id}
                     className="w-full md:w-1/2 px-4 mb-8"
@@ -366,25 +387,21 @@ export default function ProductPage() {
                         <h3 className="text-2xl sm:text-3xl font-bold text-gray-800">
                           {product.name}
                         </h3>
-                        <p className="text-lg sm:text-xl text-gray-700">
-                          {product.desc}
-                        </p>
+                        <p className="text-lg sm:text-xl text-gray-700">{product.desc}</p>
 
-                        <p className="font-semibold text-gray-800 mt-2">
-                          Other colors
-                        </p>
+                        <p className="font-semibold text-gray-800 mt-2">Other colors</p>
                         <div className="flex gap-4 flex-wrap justify-center md:justify-start">
-                          {product.colors.map((color) => (
+                          {product.colors.map((color: any) => (
                             <div
                               key={color.id}
                               onClick={() =>
                                 handleColorClick(product.id, color.image, color.price)
                               }
-                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition
-                                ${selectedVariants[product.id].image === color.image
+                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition ${
+                                selectedVariants[product.id].image === color.image
                                   ? "border-gray-800 shadow-md"
                                   : "border-gray-200 hover:border-gray-400"
-                                }`}
+                              }`}
                             >
                               <div className="relative w-full h-20">
                                 <Image
@@ -410,20 +427,16 @@ export default function ProductPage() {
                 ))}
               </div>
 
+              {/* ADDONS */}
               <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
                 เพิ่มเติมจุดต่างๆ
               </h3>
               <div className="flex flex-wrap -mx-4">
-                {category.addons.map((addon) => (
+                {category.addons.map((addon: any) => (
                   <div key={addon.id} className="w-1/2 md:w-1/4 px-4 mb-6">
                     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col items-center gap-2">
                       <div className="relative w-full h-28">
-                        <Image
-                          src={addon.image}
-                          alt={addon.name}
-                          fill
-                          className="object-contain"
-                        />
+                        <Image src={addon.image} alt={addon.name} fill className="object-contain" />
                       </div>
                       <p className="text-center font-medium text-gray-700 text-[22px]">
                         {addon.name}
