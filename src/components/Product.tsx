@@ -4,6 +4,36 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
+/* ---------------------- TYPES ---------------------- */
+type ColorType = {
+  id: number;
+  image: string;
+  price: string;
+  label: string;
+};
+
+type ProductType = {
+  id: number;
+  name: string;
+  desc: string;
+  colors: ColorType[];
+};
+
+type AddonType = {
+  id: number;
+  name: string;
+  image: string;
+  price: string;
+};
+
+type CategoryType = {
+  size: string;
+  products: ProductType[];
+  addons: AddonType[];
+};
+
+/* ---------------------- COMPONENT ---------------------- */
+
 export default function ProductPage() {
   const categories = [
     {
