@@ -4,10 +4,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.kloomsuit.com/"), 
+  metadataBase: new URL("https://www.kloomsuit.com/"),
   title: "KLOOM Studio – บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
   description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-  keywords: ["ถุงคลุมชุดสูท", "ถุงคลุมชุดไทย", "ถุงคลุมชุดราตรี", "ถุงคลุมสูทพร้อมสกรีน", "ถุงคลุมชุดพร้อมโลโก้", "ถุงคลุมชุดขายส่ง", "ถุงคลุมชุดรับผลิต", "ถุงคลุมชุดโรงงาน", "garment bag suit cover" , "suit garment bag with logo", "Kloomsuit", "Kloomstudio", "ถุงคลุมชุดคละขนาด", "ถุงคลุมชุดคุณภาพ", "ถุงคลุมชุดวัสดุสปันบอนด์", "ถุงคลุมชุดวัสดุPVCใส", "ถุงคลุมชุดเพิ่มมูลค่าร้าน", "ถุงคลุมชุดดีไซน์เฉพาะแบรนด์", "ถุงคลุมชุดผลิตเร็วส่งทั่วประเทศ", "ถุงคลุมชุดสำหรับร้านเช่าชุด", "ถุงคลุมชุดสำหรับร้านตัดสูท", "สกรีนโลโก้บนถุงคลุมชุด"],
+  keywords: ["ถุงคลุมชุดสูท", "ถุงคลุมชุดไทย", "ถุงคลุมชุดราตรี", "ถุงคลุมสูทพร้อมสกรีน", "ถุงคลุมชุดพร้อมโลโก้", "ถุงคลุมชุดขายส่ง", "ถุงคลุมชุดรับผลิต", "ถุงคลุมชุดโรงงาน", "garment bag suit cover", "suit garment bag with logo", "Kloomsuit", "Kloomstudio", "ถุงคลุมชุดคละขนาด", "ถุงคลุมชุดคุณภาพ", "ถุงคลุมชุดวัสดุสปันบอนด์", "ถุงคลุมชุดวัสดุPVCใส", "ถุงคลุมชุดเพิ่มมูลค่าร้าน", "ถุงคลุมชุดดีไซน์เฉพาะแบรนด์", "ถุงคลุมชุดผลิตเร็วส่งทั่วประเทศ", "ถุงคลุมชุดสำหรับร้านเช่าชุด", "ถุงคลุมชุดสำหรับร้านตัดสูท", "สกรีนโลโก้บนถุงคลุมชุด"],
   authors: [{ name: "KLOOM Studio" }],
   openGraph: {
     title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
@@ -66,6 +66,19 @@ export default function RootLayout({
             }),
           }}
         />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11510571691"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-11510571691');
+  `,
+        }} />
+
+
+
       </head>
       <body className="font-sans antialiased">
         <Navbar />
