@@ -2,50 +2,33 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.kloomsuit.com/"),
-  title: "KLOOM Studio – บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-  description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-  keywords: ["ถุงคลุมชุดสูท", "ถุงคลุมชุดไทย", "ถุงคลุมชุดราตรี", "ถุงคลุมสูทพร้อมสกรีน", "ถุงคลุมชุดพร้อมโลโก้", "ถุงคลุมชุดขายส่ง", "ถุงคลุมชุดรับผลิต", "ถุงคลุมชุดโรงงาน", "garment bag suit cover", "suit garment bag with logo", "Kloomsuit", "Kloomstudio", "ถุงคลุมชุดคละขนาด", "ถุงคลุมชุดคุณภาพ", "ถุงคลุมชุดวัสดุสปันบอนด์", "ถุงคลุมชุดวัสดุPVCใส", "ถุงคลุมชุดเพิ่มมูลค่าร้าน", "ถุงคลุมชุดดีไซน์เฉพาะแบรนด์", "ถุงคลุมชุดผลิตเร็วส่งทั่วประเทศ", "ถุงคลุมชุดสำหรับร้านเช่าชุด", "ถุงคลุมชุดสำหรับร้านตัดสูท", "สกรีนโลโก้บนถุงคลุมชุด"],
-  authors: [{ name: "KLOOM Studio" }],
-  openGraph: {
-    title: "KLOOM Studio – ชุดสั่งตัดเฉพาะตัว",
-    description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-    url: "https://www.kloomsuit.com/",
-    siteName: "KLOOM Studio",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: "th_TH",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "KLOOM Studio",
-    description: "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
-    images: ["/logo.png"],
-  },
+  title:
+    "KLOOM Studio – บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
+  description:
+    "บริการตัดชุดคลุมสูทสั่งตัดเฉพาะตัว พร้อมคำปรึกษาและการวัดตัวอย่างมืออาชีพ",
+  keywords: [
+    "ถุงคลุมชุดสูท",
+    "ถุงคลุมชุดไทย",
+    "ถุงคลุมชุดราตรี",
+    "ถุงคลุมสูทพร้อมสกรีน",
+    "ถุงคลุมชุดพร้อมโลโก้",
+    "ถุงคลุมชุดขายส่ง",
+  ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
       <head>
-        {/* เพิ่ม meta tags ที่สำคัญ */}
         <meta name="robots" content="index, follow" />
         <meta name="author" content="KLOOM Studio" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* JSON-LD สำหรับ LocalBusiness */}
+        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -67,19 +50,22 @@ export default function RootLayout({
           }}
         />
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11510571691"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-11510571691');
-  `,
-        }} />
+        {/* Google Tag (ต้องใช้ next/script) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-11510571691"
+          strategy="afterInteractive"
+        />
 
-
-
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-11510571691');
+          `}
+        </Script>
       </head>
+
       <body className="font-sans antialiased">
         <Navbar />
         {children}
