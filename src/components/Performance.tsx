@@ -1,20 +1,23 @@
+import Link from "next/link";
+import Image from "next/image";
+
 export default function Portfolio() {
   const projects = [
     {
       id: 1,
-      title: "เว็บไซต์ร้านตัดสูทหรู",
+      title: "เรียบหรู",
       desc: "ออกแบบและพัฒนาเว็บไซต์สั่งตัดสูทเฉพาะบุคคลด้วยดีไซน์เรียบหรู",
       img: "/EX-1.jpg",
     },
     {
       id: 2,
-      title: "เว็บโชว์คอลเลกชันแฟชั่น",
+      title: "นำชันแฟชั่น",
       desc: "ดีไซน์เว็บไซต์นำเสนอคอลเลกชันเสื้อผ้าแฟชั่นในสไตล์โมเดิร์น",
       img: "/EX-2.jpg",
     },
     {
       id: 3,
-      title: "เว็บแสดงผลงานออกแบบ",
+      title: "ดีไซน์เป็นเอกลักษณ์",
       desc: "จัดทำเว็บไซต์พอร์ตโฟลิโอสำหรับดีไซเนอร์พร้อมระบบแกลเลอรี",
       img: "/EX-3.jpg",
     },
@@ -31,19 +34,40 @@ export default function Portfolio() {
           {projects.map((item) => (
             <div
               key={item.id}
-              className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+              className="bg-white shadow-lg rounded-2xl overflow-hidden
+                         hover:shadow-2xl transition-all duration-300"
             >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-full h-56 object-cover"
-              />
+              {/* รูป — คลิกไปหน้ารีวิว */}
+              <Link href={`/review/${item.id}`} className="block">
+                <Image
+                  src={item.img}
+                  alt={item.title}
+                  width={600}
+                  height={400}
+                  className="w-full h-56 object-cover cursor-pointer
+                             transition-transform duration-300 hover:scale-105"
+                />
+              </Link>
+
               <div className="p-6 text-center">
                 <h3 className="text-xl font-semibold text-[#454456] mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">{item.desc}</p>
 
+                <p className="text-gray-600 text-sm mb-6">
+                  {item.desc}
+                </p>
+
+                {/* ปุ่ม (เผื่อคนชิน UX) */}
+                <Link
+                  href={`/review/${item.id}`}
+                  className="inline-block px-6 py-2 rounded-full
+                             border border-[#454456] text-[#454456]
+                             hover:bg-[#454456] hover:text-white
+                             transition-all duration-300 text-sm font-medium"
+                >
+                  ดูรีวิว
+                </Link>
               </div>
             </div>
           ))}
