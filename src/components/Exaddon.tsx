@@ -1,6 +1,8 @@
 "use client";
 
-export default function Team() {
+import Image from "next/image";
+
+export default function Exaddon() {
   const addons = [
     {
       img: "/AddonEx-1.png",
@@ -30,15 +32,19 @@ export default function Team() {
           {addons.map((item, index) => (
             <div
               key={index}
-              className="group bg-[#56556a]/30 border border-[#deb18a]/20 rounded-2xl overflow-hidden shadow-md hover:shadow-[0_0_25px_rgba(222,177,138,0.3)] transition-all duration-500 backdrop-blur-sm"
+              className="group bg-[#56556a]/30 border border-[#deb18a]/20 rounded-2xl overflow-hidden
+                         shadow-md hover:shadow-[0_0_25px_rgba(222,177,138,0.3)]
+                         transition-all duration-500 backdrop-blur-sm"
             >
-              <div className="overflow-hidden">
-                <img
+              <div className="overflow-hidden relative h-64">
+                <Image
                   src={item.img}
                   alt={item.title}
-                  className="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  fill
+                  className="object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
+
               <div className="p-8">
                 <h3 className="text-2xl font-semibold mb-3 text-[#deb18a] group-hover:text-[#f1cfa3] transition-colors">
                   {item.title}

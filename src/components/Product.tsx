@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 /* ---------------------- TYPES ---------------------- */
 type ColorType = {
-  id: number;
+  id: string;
   image: string;
   price: string;
   label: string;
@@ -60,7 +60,7 @@ export default function ProductPage() {
             { id: "brow", image: "/PVC-Spon-brow.png", label: "น้ำตาลช็อคโกแลต", price: "400 บาท/โหล" },
             { id: "blue", image: "/PVC-Spon-blue.png", label: "กรมท่า", price: "400 บาท/โหล" },
             { id: "black", image: "/PVC-Spon-black.png", label: "ดำ", price: "400 บาท/โหล" },
-            { id: "green ", image: "/PVC-Spon-green.png", label: "เขียว", price: "400 บาท/โหล" },
+            { id: "green", image: "/PVC-Spon-green.png", label: "เขียว", price: "400 บาท/โหล" },
             { id: "red", image: "/PVC-Spon-red.png", label: "แดง", price: "400 บาท/โหล" },
           ],
         },
@@ -111,7 +111,7 @@ export default function ProductPage() {
             { id: "brow", image: "/PVC-spon25x55-brow.png", label: "น้ำตาลช็อคโกแลต", price: "700 บาท/โหล" },
             { id: "blue", image: "/PVC-spon25x55-blue.png", label: "กรมท่า", price: "700 บาท/โหล" },
             { id: "black", image: "/PVC-spon25x55-black.png", label: "ดำ", price: "700 บาท/โหล" },
-            { id: "green ", image: "/PVC-spon25x55-green.png", label: "เขียว", price: "700 บาท/โหล" },
+            { id: "green", image: "/PVC-spon25x55-green.png", label: "เขียว", price: "700 บาท/โหล" },
             { id: "red", image: "/PVC-spon25x55-red.png", label: "แดง", price: "700 บาท/โหล" },
           ],
         },

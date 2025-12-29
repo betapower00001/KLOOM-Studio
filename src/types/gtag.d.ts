@@ -1,3 +1,8 @@
-interface Window {
-  gtag?: (...args: any[]) => void;
+// src/types/gtag.d.ts
+export {};
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
 }
