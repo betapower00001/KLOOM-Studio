@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import BounceLoader from "react-spinners/BeatLoader";
 
 import Hero from "@/components/Hero";
@@ -20,7 +21,7 @@ export default function HomeClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const img = new Image();
+    const img = new window.Image(); // 👈 native preload (ไม่เกี่ยว ESLint)
     img.src = "/logo-white.png";
     img.onload = () => setTimeout(() => setLoading(false), 300);
   }, []);
@@ -29,7 +30,13 @@ export default function HomeClient() {
     <>
       {loading && (
         <div className="loading-overlay">
-          <img src={"/logo-white.png"} width="200" alt="Loading Logo" />
+          <Image
+            src="/logo-white.png"
+            alt="Loading Logo"
+            width={200}
+            height={200}
+            priority
+          />
           <BounceLoader color="white" loading={loading} size={12.5} />
         </div>
       )}
