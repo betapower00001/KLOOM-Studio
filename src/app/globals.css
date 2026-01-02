@@ -1,15 +1,24 @@
-@import "tailwindcss";
+/* ❌ ห้ามใช้เด็ดขาด */
+/* @import "tailwindcss"; */
 
-/* โหลดฟอนต์จาก public/fonts */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===============================
+   FONT (ใช้ฟอนต์เดิม)
+================================ */
 @font-face {
   font-family: "FC Vision Compressed";
-  src: url("/fonts/MiSansThai-ExtraLight.woff") format("opentype");
+  src: url("/fonts/MiSansThai-ExtraLight.woff") format("woff");
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
 
-/* สีพื้นหลัง */
+/* ===============================
+   COLOR VARIABLES
+================================ */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,27 +32,57 @@
   }
 }
 
-/* Theme Tailwind */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: "FC Vision Compressed", Arial, Helvetica, sans-serif;
-  --font-mono: var(--font-geist-mono);
-}
-
-/* Body */
+/* ===============================
+   BASE BODY
+================================ */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: "FC Vision Compressed", Arial, Helvetica, sans-serif;
+  font-weight: 200;
+
+  /* ชดเชยฟอนต์บาง */
+  font-size: 16px;
+  line-height: 1.9;
 }
 
+/* ===============================
+   PROSE OVERRIDE (หัวใจของเรื่อง)
+================================ */
+.prose {
+  font-size: 1.25rem; /* 20px */
+  line-height: 2.2;
+}
+
+.prose p {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Headings ---------- */
+.prose h2 {
+  font-size: 2.75rem; /* 44px */
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  margin-top: 6rem;
+  margin-bottom: 2.5rem;
+}
+
+.prose h3 {
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.35;
+  letter-spacing: 0.015em;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+/* ===============================
+   OTHER
+================================ */
 .loading-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background-color: #deb18a;
   display: flex;
   flex-direction: column;

@@ -32,12 +32,13 @@ export default function ServiceSection() {
       {/* Top section */}
       <div className="grid md:grid-cols-2">
         {/* Left image */}
-        <div className="relative h-[400px] md:h-[650px]">
+        <div className="relative min-h-[400px] md:min-h-full">
           <Image
             src="/image-8.jpg"
             alt="Tailor Man"
             fill
             className="object-cover"
+            priority
           />
         </div>
 
