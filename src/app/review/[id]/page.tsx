@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -10,185 +9,29 @@ type PageProps = {
     id: string;
   };
 };
+
+/* =========================
+   AUTO GENERATE GALLERY
+========================= */
+
+const createGallery = (start: number, end: number) =>
+  Array.from(
+    { length: end - start + 1 },
+    (_, i) => `/review/reviwe-${i + start}.jpg`
+  );
+
+/* =========================
+   GALLERY DATA
+========================= */
+
 const galleries: Record<string, string[]> = {
-  "1": [
-    "/review/reviwe-1.jpg",
-    "/review/reviwe-2.jpg",
-    "/review/reviwe-3.jpg",
-    "/review/reviwe-4.jpg",
-    "/review/reviwe-5.jpg",
-    "/review/reviwe-6.jpg",
-    "/review/reviwe-7.jpg",
-    "/review/reviwe-8.jpg",
-    "/review/reviwe-9.jpg",
-    "/review/reviwe-10.jpg",
-    "/review/reviwe-11.jpg",
-    "/review/reviwe-12.jpg",
-    "/review/reviwe-13.jpg",
-    "/review/reviwe-14.jpg",
-    "/review/reviwe-15.jpg",
-    "/review/reviwe-16.jpg",
-    "/review/reviwe-17.jpg",
-    "/review/reviwe-18.jpg",
-    "/review/reviwe-19.jpg",
-    "/review/reviwe-20.jpg",
-    "/review/reviwe-21.jpg",
-    "/review/reviwe-22.jpg",
-    "/review/reviwe-23.jpg",
-    "/review/reviwe-24.jpg",
-    "/review/reviwe-25.jpg",
-    "/review/reviwe-26.jpg",
-    "/review/reviwe-27.jpg",
-    "/review/reviwe-28.jpg",
-    "/review/reviwe-29.jpg",
-    "/review/reviwe-30.jpg",
-    "/review/reviwe-31.jpg",
-    "/review/reviwe-32.jpg",
-    "/review/reviwe-33.jpg",
-    "/review/reviwe-34.jpg",
-    "/review/reviwe-35.jpg",
-    "/review/reviwe-36.jpg",
-    "/review/reviwe-37.jpg",
-    "/review/reviwe-38.jpg",
-    "/review/reviwe-39.jpg",
-    "/review/reviwe-40.jpg",
-    "/review/reviwe-41.jpg",
-    "/review/reviwe-42.jpg",
-    "/review/reviwe-43.jpg",
-    "/review/reviwe-44.jpg",
-    "/review/reviwe-45.jpg",
-    "/review/reviwe-46.jpg",
-    "/review/reviwe-47.jpg",
-    "/review/reviwe-48.jpg",
-    "/review/reviwe-49.jpg",
-    "/review/reviwe-50.jpg",
-    "/review/reviwe-51.jpg",
-    "/review/reviwe-52.jpg",
-    "/review/reviwe-53.jpg",
-    "/review/reviwe-54.jpg",
-    "/review/reviwe-55.jpg",
-    "/review/reviwe-56.jpg",
-  ],
-
-  "2": ["/review/reviwe-1.jpg",
-    "/review/reviwe-2.jpg",
-    "/review/reviwe-3.jpg",
-    "/review/reviwe-4.jpg",
-    "/review/reviwe-5.jpg",
-    "/review/reviwe-6.jpg",
-    "/review/reviwe-7.jpg",
-    "/review/reviwe-8.jpg",
-    "/review/reviwe-9.jpg",
-    "/review/reviwe-10.jpg",
-    "/review/reviwe-11.jpg",
-    "/review/reviwe-12.jpg",
-    "/review/reviwe-13.jpg",
-    "/review/reviwe-14.jpg",
-    "/review/reviwe-15.jpg",
-    "/review/reviwe-16.jpg",
-    "/review/reviwe-17.jpg",
-    "/review/reviwe-18.jpg",
-    "/review/reviwe-19.jpg",
-    "/review/reviwe-20.jpg",
-    "/review/reviwe-21.jpg",
-    "/review/reviwe-22.jpg",
-    "/review/reviwe-23.jpg",
-    "/review/reviwe-24.jpg",
-    "/review/reviwe-25.jpg",
-    "/review/reviwe-26.jpg",
-    "/review/reviwe-27.jpg",
-    "/review/reviwe-28.jpg",
-    "/review/reviwe-29.jpg",
-    "/review/reviwe-30.jpg",
-    "/review/reviwe-31.jpg",
-    "/review/reviwe-32.jpg",
-    "/review/reviwe-33.jpg",
-    "/review/reviwe-34.jpg",
-    "/review/reviwe-35.jpg",
-    "/review/reviwe-36.jpg",
-    "/review/reviwe-37.jpg",
-    "/review/reviwe-38.jpg",
-    "/review/reviwe-39.jpg",
-    "/review/reviwe-40.jpg",
-    "/review/reviwe-41.jpg",
-    "/review/reviwe-42.jpg",
-    "/review/reviwe-43.jpg",
-    "/review/reviwe-44.jpg",
-    "/review/reviwe-45.jpg",
-    "/review/reviwe-46.jpg",
-    "/review/reviwe-47.jpg",
-    "/review/reviwe-48.jpg",
-    "/review/reviwe-49.jpg",
-    "/review/reviwe-50.jpg",
-    "/review/reviwe-51.jpg",
-    "/review/reviwe-52.jpg",
-    "/review/reviwe-53.jpg",
-    "/review/reviwe-54.jpg",
-    "/review/reviwe-55.jpg",
-    "/review/reviwe-56.jpg",],
-
-
-  "3": ["/review/reviwe-1.jpg",
-    "/review/reviwe-2.jpg",
-    "/review/reviwe-3.jpg",
-    "/review/reviwe-4.jpg",
-    "/review/reviwe-5.jpg",
-    "/review/reviwe-6.jpg",
-    "/review/reviwe-7.jpg",
-    "/review/reviwe-8.jpg",
-    "/review/reviwe-9.jpg",
-    "/review/reviwe-10.jpg",
-    "/review/reviwe-11.jpg",
-    "/review/reviwe-12.jpg",
-    "/review/reviwe-13.jpg",
-    "/review/reviwe-14.jpg",
-    "/review/reviwe-15.jpg",
-    "/review/reviwe-16.jpg",
-    "/review/reviwe-17.jpg",
-    "/review/reviwe-18.jpg",
-    "/review/reviwe-19.jpg",
-    "/review/reviwe-20.jpg",
-    "/review/reviwe-21.jpg",
-    "/review/reviwe-22.jpg",
-    "/review/reviwe-23.jpg",
-    "/review/reviwe-24.jpg",
-    "/review/reviwe-25.jpg",
-    "/review/reviwe-26.jpg",
-    "/review/reviwe-27.jpg",
-    "/review/reviwe-28.jpg",
-    "/review/reviwe-29.jpg",
-    "/review/reviwe-30.jpg",
-    "/review/reviwe-31.jpg",
-    "/review/reviwe-32.jpg",
-    "/review/reviwe-33.jpg",
-    "/review/reviwe-34.jpg",
-    "/review/reviwe-35.jpg",
-    "/review/reviwe-36.jpg",
-    "/review/reviwe-37.jpg",
-    "/review/reviwe-38.jpg",
-    "/review/reviwe-39.jpg",
-    "/review/reviwe-40.jpg",
-    "/review/reviwe-41.jpg",
-    "/review/reviwe-42.jpg",
-    "/review/reviwe-43.jpg",
-    "/review/reviwe-44.jpg",
-    "/review/reviwe-45.jpg",
-    "/review/reviwe-46.jpg",
-    "/review/reviwe-47.jpg",
-    "/review/reviwe-48.jpg",
-    "/review/reviwe-49.jpg",
-    "/review/reviwe-50.jpg",
-    "/review/reviwe-51.jpg",
-    "/review/reviwe-52.jpg",
-    "/review/reviwe-53.jpg",
-    "/review/reviwe-54.jpg",
-    "/review/reviwe-55.jpg",
-    "/review/reviwe-56.jpg",
-
-  ],
+  "1": createGallery(1, 120),
+  "2": createGallery(1, 120),
+  "3": createGallery(1, 120),
 };
+
 export default function ReviewPage({ params }: PageProps) {
-  const { id } = params; // ✅ Next 14 ถูกต้อง
+  const { id } = params;
   const images = galleries[id];
 
   const [open, setOpen] = useState(false);
@@ -211,6 +54,10 @@ export default function ReviewPage({ params }: PageProps) {
         ← กลับ
       </Link>
 
+      {/* =========================
+         GALLERY GRID
+      ========================= */}
+
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {images.map((img, index) => (
           <button
@@ -228,6 +75,7 @@ export default function ReviewPage({ params }: PageProps) {
               width={600}
               height={800}
               priority={index < 3}
+              loading={index < 6 ? "eager" : "lazy"}
               className="w-full h-full object-cover rounded-xl group-hover:scale-[1.03] transition"
             />
 
@@ -239,6 +87,10 @@ export default function ReviewPage({ params }: PageProps) {
           </button>
         ))}
       </div>
+
+      {/* =========================
+         MODAL VIEW
+      ========================= */}
 
       {open && (
         <div
