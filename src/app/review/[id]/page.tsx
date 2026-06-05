@@ -25,9 +25,9 @@ const createGallery = (start: number, end: number) =>
 ========================= */
 
 const galleries: Record<string, string[]> = {
-  "1": createGallery(1, 120),
-  "2": createGallery(1, 120),
-  "3": createGallery(1, 120),
+  "1": createGallery(1, 180),
+  "2": createGallery(1, 180),
+  "3": createGallery(1, 180),
 };
 
 export default function ReviewPage({ params }: PageProps) {
