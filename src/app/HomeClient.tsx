@@ -14,7 +14,7 @@ import Exaddon from "@/components/Exaddon";
 import Performance from "@/components/Performance";
 import Product from "@/components/Product";
 import Article from "@/components/Article";
-import Blogs from "@/app/blogs/page";
+import BlogList from "@/components/BlogList";
 import Video from "@/components/Video";
 
 export default function HomeClient() {
@@ -24,6 +24,7 @@ export default function HomeClient() {
     const img = new window.Image(); // 👈 native preload (ไม่เกี่ยว ESLint)
     img.src = "/logo-white.png";
     img.onload = () => setTimeout(() => setLoading(false), 300);
+    img.onerror = () => setLoading(false);
   }, []);
 
   return (
@@ -53,7 +54,7 @@ export default function HomeClient() {
           <Exaddon />
           <Performance />
           <Article />
-          <Blogs />
+          <BlogList />
         </main>
       )}
     </>

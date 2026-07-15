@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -33,10 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://www.kloomsuit.com/",
+              "@context": "https://schema.org",
               "@type": "LocalBusiness",
               name: "KLOOM Studio",
-              image: "https://www.kloomsuit.com/",
+              image: "https://www.kloomsuit.com/logo.png",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "215 เพชรเกษม 28 แยก 22 เขตภาษีเจริญ",
@@ -67,9 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body className="font-sans antialiased">
-        <Navbar />
-        {children}
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

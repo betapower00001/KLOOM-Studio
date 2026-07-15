@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 /* ===============================
-   FONT (ใช้ฟอนต์เดิม)
+   FONT (ใช้ฟอนต์เดิมของเว็บไซต์)
 ================================ */
 @font-face {
   font-family: "FC Vision Compressed";
@@ -24,14 +24,6 @@
   --foreground: #171717;
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 /* ===============================
    BASE BODY
 ================================ */
@@ -40,17 +32,36 @@ body {
   color: var(--foreground);
   font-family: "FC Vision Compressed", Arial, Helvetica, sans-serif;
   font-weight: 200;
-
-  /* ชดเชยฟอนต์บาง */
   font-size: 16px;
   line-height: 1.9;
 }
 
+/* ป้องกันตัวอักษรในฟอร์มหลังบ้านกลืนกับพื้นหลัง */
+input,
+textarea,
+select {
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
 /* ===============================
-   PROSE OVERRIDE (หัวใจของเรื่อง)
+   PROSE OVERRIDE
 ================================ */
 .prose {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;
   line-height: 2.2;
 }
 
@@ -60,9 +71,8 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* ---------- Headings ---------- */
 .prose h2 {
-  font-size: 2.75rem; /* 44px */
+  font-size: 2.75rem;
   line-height: 1.25;
   letter-spacing: 0.02em;
   margin-top: 6rem;
@@ -70,7 +80,7 @@ body {
 }
 
 .prose h3 {
-  font-size: 1.75rem; /* 28px */
+  font-size: 1.75rem;
   line-height: 1.35;
   letter-spacing: 0.015em;
   margin-top: 4rem;

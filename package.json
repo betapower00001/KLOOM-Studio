@@ -1,17 +1,33 @@
 {
-  "name": "my-app",
+  "name": "kloom-studio-cms",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint",
+    "clean": "node scripts/clean.mjs",
+    "generate:seed": "node scripts/generate-neon-seed.mjs",
+    "db:check": "node scripts/check-database.mjs",
+    "db:setup": "node scripts/setup-database.mjs all",
+    "db:schema": "node scripts/setup-database.mjs schema",
+    "db:seed": "node scripts/setup-database.mjs seed",
+    "services:check": "node scripts/check-services.mjs",
+    "db:portfolio-fix": "node scripts/apply-portfolio-fix.mjs",
+    "db:portfolio-review": "node scripts/apply-portfolio-review-link.mjs",
+    "db:review-gallery": "node scripts/apply-review-gallery.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/blob": "^2.6.1",
+    "bcryptjs": "^3.0.3",
     "framer-motion": "^12.23.24",
+    "jose": "^6.2.3",
     "lucide-react": "^0.542.0",
-    "next": "14.2.7",
+    "next": "^14.2.35",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-spinners": "^0.17.0"
@@ -22,9 +38,14 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.23",
     "eslint": "^8",
-    "eslint-config-next": "14.2.7",
-    "postcss": "^8.5.6",
+    "eslint-config-next": "^14.2.35",
+    "postcss": "^8.5.10",
     "tailwindcss": "^3.4.19",
     "typescript": "^5"
-  }
+  },
+  "engines": {
+    "node": ">=20 <23",
+    "npm": ">=10 <11"
+  },
+  "packageManager": "npm@10.9.2"
 }
