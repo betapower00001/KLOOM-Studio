@@ -38,7 +38,14 @@ const fallbackTestimonials: CmsTestimonial[] = [
 ];
 
 export async function getPublicProducts(): Promise<ProductCategory[]> {
-  if (!isDatabaseConfigured()) return fallbackProducts as ProductCategory[];
+  // Fallback images are only for local development. In production they hide
+  // database/query failures and make customers see outdated colors and photos.
+  if (!isDatabaseConfigured()) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Product CMS database is not configured");
+    }
+    return fallbackProducts as ProductCategory[];
+  }
 
   try {
     const sql = getSql();
@@ -114,7 +121,10 @@ export async function getPublicProducts(): Promise<ProductCategory[]> {
       })),
     }));
   } catch (error) {
-    console.error("CMS: failed to load products from Neon; serving fallback content", error);
+    console.error("CMS: failed to load products from Neon", error);
+    if (process.env.NODE_ENV === "production") {
+      throw error;
+    }
     return fallbackProducts as ProductCategory[];
   }
 }

@@ -3,33 +3,37 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import fallbackProducts from "@/data/fallback-products.json";
 import type { ProductCategory } from "@/lib/cms/types";
 
 /* ---------------------- COMPONENT ---------------------- */
 
 export default function ProductPage() {
-  const [categories, setCategories] = useState<ProductCategory[]>(
-    fallbackProducts as ProductCategory[],
-  );
+  // Never show hard-coded colors in production while waiting for the CMS API.
+  const [categories, setCategories] = useState<ProductCategory[]>([]);
+  const [loadStatus, setLoadStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     let active = true;
 
-    fetch("/api/cms/products", { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (active && Array.isArray(data)) {
-          setCategories(data);
-        }
-      })
-      .catch(() => {
-        // Keep the built-in product data when the CMS is not configured.
-      });
+    async function loadProducts() {
+      try {
+        const response = await fetch("/api/cms/products", { cache: "no-store" });
+        if (!response.ok) throw new Error(`Product API returned ${response.status}`);
+        const data: unknown = await response.json();
+        if (!Array.isArray(data)) throw new Error("Product API response is not an array");
+        if (!active) return;
+        setCategories(data as ProductCategory[]);
+        setLoadStatus("ready");
+      } catch (error) {
+        console.error("Failed to load live CMS products", error);
+        if (!active) return;
+        setCategories([]);
+        setLoadStatus("error");
+      }
+    }
 
-    return () => {
-      active = false;
-    };
+    void loadProducts();
+    return () => { active = false; };
   }, []);
 
   const [selectedVariants, setSelectedVariants] = useState<
@@ -96,6 +100,18 @@ export default function ProductPage() {
         </p>
       </header>
 
+      {loadStatus === "loading" && (
+        <p role="status" className="mb-8 text-center text-gray-600">กำลังโหลดข้อมูลสินค้าล่าสุด…</p>
+      )}
+      {loadStatus === "error" && (
+        <div role="alert" className="mb-8 rounded-xl border border-red-200 bg-red-50 p-5 text-center text-red-800">
+          ไม่สามารถโหลดสินค้าจากระบบหลังบ้านได้ กรุณาลองรีเฟรชหน้าเว็บอีกครั้ง
+        </div>
+      )}
+      {loadStatus === "ready" && categories.length === 0 && (
+        <p className="mb-8 text-center text-gray-600">ขณะนี้ยังไม่มีสินค้าที่เปิดแสดงบนเว็บไซต์</p>
+      )}
+
       {/* LOOP CATEGORY */}
       {categories.map((category) => (
         <div
@@ -148,7 +164,7 @@ export default function ProductPage() {
                       <div className="w-full md:w-1/2 flex justify-center">
                         <div className="relative w-full sm:max-w-[400px] aspect-[4/5]">
                           <Image
-                            src={(selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`] ?? { image: product.colors[0]?.image ?? product.mainImage ?? "/placeholder.svg", price: product.colors[0]?.price ?? "" }).image || "/placeholder.svg"}
+                            src={selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`]?.image || product.colors[0]?.image || product.mainImage || "/placeholder.svg"}
                             alt={product.name}
                             unoptimized
                             fill
