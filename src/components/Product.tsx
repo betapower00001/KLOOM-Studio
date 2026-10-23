@@ -8,56 +8,54 @@ import type { ProductCategory } from "@/lib/cms/types";
 /* ---------------------- COMPONENT ---------------------- */
 
 export default function ProductPage() {
-  // Never show hard-coded colors in production while waiting for the CMS API.
   const [categories, setCategories] = useState<ProductCategory[]>([]);
-  const [loadStatus, setLoadStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
+  // Store only the selected color ID. Keeping image URLs in state made images
+  // stale when CMS data changed or when old bundled defaults loaded first.
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    let active = true;
-
-    async function loadProducts() {
+    const controller = new AbortController();
+    const loadProducts = async () => {
       try {
-        const response = await fetch("/api/cms/products", { cache: "no-store" });
-        if (!response.ok) throw new Error(`Product API returned ${response.status}`);
+        const response = await fetch("/api/cms/products", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data: unknown = await response.json();
-        if (!Array.isArray(data)) throw new Error("Product API response is not an array");
-        if (!active) return;
-        setCategories(data as ProductCategory[]);
-        setLoadStatus("ready");
+        if (!Array.isArray(data)) throw new Error("Invalid product data");
+        if (!controller.signal.aborted) {
+          setCategories(data as ProductCategory[]);
+          setLoadError("");
+        }
       } catch (error) {
-        console.error("Failed to load live CMS products", error);
-        if (!active) return;
-        setCategories([]);
-        setLoadStatus("error");
+        if (!controller.signal.aborted) {
+          console.error("Cannot load CMS products:", error);
+          setCategories([]);
+          setLoadError("ไม่สามารถโหลดข้อมูลสินค้าใหม่ได้ กรุณาลองอีกครั้ง");
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoadingProducts(false);
       }
-    }
-
+    };
     void loadProducts();
-    return () => { active = false; };
+    return () => controller.abort();
+  }, [refreshKey]);
+
+  // Refresh data when a visitor returns to the tab after an admin edit.
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === "visible") setRefreshKey((key) => key + 1);
+    };
+    document.addEventListener("visibilitychange", refresh);
+    return () => document.removeEventListener("visibilitychange", refresh);
   }, []);
 
-  const [selectedVariants, setSelectedVariants] = useState<
-    Record<string, { image: string; price: string }>
-  >({});
-
-  useEffect(() => {
-    setSelectedVariants((current) => {
-      const next = { ...current };
-      categories.forEach((category) => {
-        category.products.forEach((product) => {
-          const defaultColor = product.colors[0];
-          const productKey = product.dbId ?? `${category.id ?? category.size}-${product.id}`;
-          if (defaultColor && !next[productKey]) {
-            next[productKey] = {
-              image: defaultColor.image,
-              price: defaultColor.price,
-            };
-          }
-        });
-      });
-      return next;
-    });
-  }, [categories]);
+  const productKeyFor = (category: ProductCategory, product: ProductCategory["products"][number]) =>
+    product.dbId ?? `${category.id ?? category.size}-${product.id}`;
 
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -77,8 +75,8 @@ export default function ProductPage() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  const handleColorClick = (productKey: string, image: string, price: string) => {
-    setSelectedVariants((prev) => ({ ...prev, [productKey]: { image, price } }));
+  const handleColorClick = (productKey: string, colorId: string) => {
+    setSelectedVariants((prev) => ({ ...prev, [productKey]: colorId }));
   };
 
   const scrollToCategory = (size: string, offset = 50) => {
@@ -100,16 +98,17 @@ export default function ProductPage() {
         </p>
       </header>
 
-      {loadStatus === "loading" && (
-        <p role="status" className="mb-8 text-center text-gray-600">กำลังโหลดข้อมูลสินค้าล่าสุด…</p>
-      )}
-      {loadStatus === "error" && (
-        <div role="alert" className="mb-8 rounded-xl border border-red-200 bg-red-50 p-5 text-center text-red-800">
-          ไม่สามารถโหลดสินค้าจากระบบหลังบ้านได้ กรุณาลองรีเฟรชหน้าเว็บอีกครั้ง
+      {loadingProducts && <p role="status" className="text-center text-slate-600 mb-8">กำลังโหลดสินค้า...</p>}
+      {loadError && (
+        <div role="alert" className="mx-auto mb-8 max-w-lg rounded-xl border border-red-200 bg-white p-5 text-center text-red-700">
+          <p>{loadError}</p>
+          <button type="button" onClick={() => { setLoadingProducts(true); setRefreshKey((key) => key + 1); }}
+            className="mt-3 rounded-lg bg-slate-900 px-4 py-2 text-white">ลองโหลดอีกครั้ง</button>
         </div>
       )}
-      {loadStatus === "ready" && categories.length === 0 && (
-        <p className="mb-8 text-center text-gray-600">ขณะนี้ยังไม่มีสินค้าที่เปิดแสดงบนเว็บไซต์</p>
+
+      {!loadingProducts && !loadError && categories.length === 0 && (
+        <p className="mb-8 text-center text-slate-600">ยังไม่มีสินค้าที่เปิดแสดงบนเว็บไซต์</p>
       )}
 
       {/* LOOP CATEGORY */}
@@ -150,9 +149,14 @@ export default function ProductPage() {
             <>
               {/* PRODUCT LIST */}
               <div className="flex flex-wrap -mx-4 mb-6">
-                {category.products.map((product) => (
+                {category.products.map((product) => {
+                  const productKey = productKeyFor(category, product);
+                  const currentColor = product.colors.find((color) => color.id === selectedVariants[productKey])
+                    ?? product.colors[0];
+                  const displayedImage = currentColor?.image || product.mainImage || "/placeholder.svg";
+                  return (
                   <motion.div
-                    key={product.dbId ?? `${category.size}-${product.id}`}
+                    key={productKey}
                     className="w-full md:w-1/2 px-4 mb-8"
                     initial="hidden"
                     whileInView="visible"
@@ -164,7 +168,7 @@ export default function ProductPage() {
                       <div className="w-full md:w-1/2 flex justify-center">
                         <div className="relative w-full sm:max-w-[400px] aspect-[4/5]">
                           <Image
-                            src={selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`]?.image || product.colors[0]?.image || product.mainImage || "/placeholder.svg"}
+                            src={displayedImage}
                             alt={product.name}
                             unoptimized
                             fill
@@ -187,9 +191,9 @@ export default function ProductPage() {
                             <div
                               key={color.id}
                               onClick={() =>
-                                handleColorClick(product.dbId ?? `${category.id ?? category.size}-${product.id}`, color.image, color.price)
+                                handleColorClick(productKey, color.id)
                               }
-                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition ${(selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`]?.image ?? product.colors[0]?.image) === color.image
+                              className={`relative w-20 h-28 border rounded cursor-pointer overflow-hidden transition ${(currentColor?.id === color.id)
                                   ? "border-gray-800 shadow-md"
                                   : "border-gray-200 hover:border-gray-400"
                                 }`}
@@ -211,12 +215,13 @@ export default function ProductPage() {
                         </div>
 
                         <p className="text-3xl font-bold text-[#deb18a] mt-4">
-                          {selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`]?.price ?? product.colors[0]?.price ?? ""}
+                          {currentColor?.price ?? ""}
                         </p>
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                );
+                })}
               </div>
 
               {/* ADDONS */}

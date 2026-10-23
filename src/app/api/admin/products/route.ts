@@ -136,22 +136,52 @@ export async function PATCH(request: Request) {
       entity?: unknown;
       id?: unknown;
       data?: Record<string, unknown>;
+      image_only?: boolean;
     };
     const selectedEntity = entity(body.entity);
     const id = uuid(body.id);
     const data = body.data ?? {};
     const sql = getSql();
 
+    // The upload callback only saves image_url, not any other fields that an
+    // editor may still be typing. This prevents overwriting unsaved form edits.
+    if (body.image_only === true) {
+      const imageUrl = optionalText(data.image_url);
+      let imageChanged: { id: string }[];
+      if (selectedEntity === "product") {
+        imageChanged = await sql`
+          update products set main_image_url = ${imageUrl}
+          where id = ${id}::uuid returning id
+        ` as { id: string }[];
+      } else if (selectedEntity === "variant") {
+        imageChanged = await sql`
+          update product_variants set image_url = ${imageUrl}
+          where id = ${id}::uuid returning id
+        ` as { id: string }[];
+      } else if (selectedEntity === "addon") {
+        imageChanged = await sql`
+          update product_addons set image_url = ${imageUrl}
+          where id = ${id}::uuid returning id
+        ` as { id: string }[];
+      } else {
+        throw new ApiInputError("หมวดสินค้าไม่มีรูปภาพที่บันทึกแบบนี้ได้");
+      }
+      if (!imageChanged.length) throw new ApiInputError("ไม่พบรายการที่จะบันทึกรูป");
+      return NextResponse.json({ ok: true, saved_image_url: imageUrl });
+    }
+
+    let changed: { id: string }[];
     if (selectedEntity === "category") {
-      await sql`
+      changed = await sql`
         update product_categories
         set size_label = ${requiredText(data.size_label, "ชื่อหมวดขนาด", 200)},
             sort_order = ${integer(data.sort_order)},
             is_active = ${active(data.is_active)}
         where id = ${id}::uuid
-      `;
+        returning id
+      ` as { id: string }[];
     } else if (selectedEntity === "product") {
-      await sql`
+      changed = await sql`
         update products
         set name = ${requiredText(data.name, "ชื่อสินค้า")},
             description = ${optionalText(data.description, 3000)},
@@ -159,9 +189,10 @@ export async function PATCH(request: Request) {
             sort_order = ${integer(data.sort_order)},
             is_active = ${active(data.is_active)}
         where id = ${id}::uuid
-      `;
+        returning id
+      ` as { id: string }[];
     } else if (selectedEntity === "variant") {
-      await sql`
+      changed = await sql`
         update product_variants
         set code = ${requiredText(data.code, "รหัสสี", 100)},
             label = ${requiredText(data.label, "ชื่อสี", 200)},
@@ -170,9 +201,10 @@ export async function PATCH(request: Request) {
             sort_order = ${integer(data.sort_order)},
             is_active = ${active(data.is_active)}
         where id = ${id}::uuid
-      `;
+        returning id
+      ` as { id: string }[];
     } else {
-      await sql`
+      changed = await sql`
         update product_addons
         set name = ${requiredText(data.name, "ชื่อตัวเลือกเสริม")},
             price_text = ${requiredText(data.price_text, "ราคา", 200)},
@@ -180,9 +212,11 @@ export async function PATCH(request: Request) {
             sort_order = ${integer(data.sort_order)},
             is_active = ${active(data.is_active)}
         where id = ${id}::uuid
-      `;
+        returning id
+      ` as { id: string }[];
     }
 
+    if (!changed.length) throw new ApiInputError("ไม่พบรายการที่จะบันทึก กรุณารีเฟรชระบบหลังบ้าน");
     return NextResponse.json({ ok: true });
   } catch (error) {
     return apiError(error, "บันทึกข้อมูลไม่สำเร็จ");

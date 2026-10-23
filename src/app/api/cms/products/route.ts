@@ -2,19 +2,19 @@ import { NextResponse } from "next/server";
 import { getPublicProducts } from "@/lib/cms/public";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const runtime = "nodejs";
 
-const headers = { "Cache-Control": "no-store, no-cache, must-revalidate" };
+const noCache = { "Cache-Control": "no-store, no-cache, must-revalidate" };
 
 export async function GET() {
   try {
-    const products = await getPublicProducts();
-    return NextResponse.json(products, { headers });
+    return NextResponse.json(await getPublicProducts(), { headers: noCache });
   } catch (error) {
-    console.error("GET /api/cms/products failed", error);
+    console.error("Public product CMS failed (check Neon tables and schema)", error);
     return NextResponse.json(
-      { error: "ไม่สามารถโหลดข้อมูลสินค้าจากฐานข้อมูลได้" },
-      { status: 503, headers },
+      { error: "โหลดข้อมูลสินค้าจากฐานข้อมูลไม่สำเร็จ กรุณาตรวจสอบตารางสินค้าใน Neon" },
+      { status: 503, headers: noCache },
     );
   }
 }

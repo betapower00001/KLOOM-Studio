@@ -138,10 +138,26 @@ export default function ProductManager() {
     try {
       await action();
       setMessage("บันทึกข้อมูลเรียบร้อยแล้ว");
+      return true;
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "เกิดข้อผิดพลาด");
+      return false;
     } finally {
       setBusy("");
+    }
+  }
+
+  async function saveUploadedImage(entity: "product" | "variant" | "addon", id: string, url: string) {
+    try {
+      await adminFetch<{ ok: true; saved_image_url: string }>("/api/admin/products", {
+        method: "PATCH",
+        body: JSON.stringify({ entity, id, image_only: true, data: { image_url: url } }),
+      });
+      setMessage("อัปโหลดรูปและบันทึก URL ลงฐานข้อมูลแล้ว");
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : "เกิดข้อผิดพลาด";
+      setMessage(`อัปโหลดแล้ว แต่บันทึก URL ไม่สำเร็จ: ${detail}`);
+      throw error;
     }
   }
 
@@ -363,6 +379,13 @@ export default function ProductManager() {
         </div>
       )}
 
+      <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <p>เมื่ออัปโหลดรูปสินค้าหรือรูปสี ระบบจะบันทึก URL ลงฐานข้อมูลให้อัตโนมัติ</p>
+        <p>หากแก้ชื่อ สี ราคา ลำดับ หรือเครื่องหมาย “แสดง” ด้วย กรุณากดปุ่มบันทึกของรายการนั้นด้วย</p>
+        <a href="/api/admin/diagnostics/products" target="_blank" rel="noreferrer"
+          className="mt-2 inline-block font-semibold underline">ตรวจสถานะข้อมูลสินค้าบนเว็บจริง</a>
+      </div>
+
       {categories.map((category) => (
         <section key={category.id} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70 md:p-7">
           <div className="flex flex-col gap-4 border-b border-slate-100 pb-6 lg:flex-row lg:items-end">
@@ -437,6 +460,7 @@ export default function ProductManager() {
                     <MediaUpload
                       value={product.main_image_url}
                       onChange={(url) => updateProduct(category.id, product.id, { main_image_url: url })}
+                      onUploaded={(url) => saveUploadedImage("product", product.id, url)}
                       folder="products"
                     />
                   </label>
@@ -518,6 +542,7 @@ export default function ProductManager() {
                             <MediaUpload
                               value={variant.image_url}
                               onChange={(url) => updateVariant(category.id, product.id, variant.id, { image_url: url })}
+                              onUploaded={(url) => saveUploadedImage("variant", variant.id, url)}
                               folder="product-variants"
                             />
                           </td>
@@ -613,6 +638,7 @@ export default function ProductManager() {
                     <MediaUpload
                       value={addon.image_url}
                       onChange={(url) => updateAddon(category.id, addon.id, { image_url: url })}
+                      onUploaded={(url) => saveUploadedImage("addon", addon.id, url)}
                       folder="addons"
                     />
                   </div>

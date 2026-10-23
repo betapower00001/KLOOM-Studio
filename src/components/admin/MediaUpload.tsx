@@ -19,14 +19,18 @@ export default function MediaUpload({
   value,
   onChange,
   folder = "general",
+  onUploaded,
 }: {
   value: string;
   onChange: (url: string) => void;
   folder?: string;
+  /** Persist the Blob URL immediately. If omitted, user must click Save. */
+  onUploaded?: (url: string) => Promise<void>;
 }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [previewFailed, setPreviewFailed] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState("");
 
   const previewSource = useMemo(() => getPreviewSource(value), [value]);
 
@@ -51,6 +55,7 @@ export default function MediaUpload({
 
     setUploading(true);
     setError("");
+    setUploadMessage("");
 
     try {
       const safeFolder = folder.replace(/[^a-zA-Z0-9-_]/g, "-");
@@ -67,8 +72,14 @@ export default function MediaUpload({
 
       onChange(blob.url);
       setPreviewFailed(false);
+      if (onUploaded) {
+        await onUploaded(blob.url);
+        setUploadMessage("อัปโหลดและบันทึกลงฐานข้อมูลแล้ว");
+      } else {
+        setUploadMessage("อัปโหลดแล้ว — กรุณากดปุ่มบันทึกข้อมูล เพื่อให้หน้าเว็บแสดงรูปใหม่");
+      }
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : "อัปโหลดรูปไม่สำเร็จ");
+      setError(uploadError instanceof Error ? uploadError.message : "อัปโหลดหรือบันทึกรูปไม่สำเร็จ");
     } finally {
       setUploading(false);
     }
@@ -110,6 +121,7 @@ export default function MediaUpload({
           value={value}
           onChange={(event) => {
             setError("");
+            setUploadMessage("");
             onChange(event.target.value);
           }}
           className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-[#b78b64]"
@@ -129,7 +141,8 @@ export default function MediaUpload({
         </label>
       </div>
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {uploadMessage && <p role="status" className="text-xs text-emerald-700">{uploadMessage}</p>}
+      {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }
