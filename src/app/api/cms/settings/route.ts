@@ -5,6 +5,6 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   return NextResponse.json(await getPublicSettings(), {
-    headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" },
+    headers: { "Cache-Control": "no-store, no-cache, must-revalidate" },
   });
 }

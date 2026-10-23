@@ -29,6 +29,7 @@ export default function Article() {
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/40 to-transparent" />
           <Image
             src={article.cover_image_url || "/placeholder.svg"}
+            unoptimized
             alt={article.title}
             width={800}
             height={600}

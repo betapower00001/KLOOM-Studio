@@ -69,6 +69,7 @@ export default function BlogList() {
                   <motion.div whileHover={{ scale: 1.05 }} className="overflow-hidden">
                     <Image
                       src={article.cover_image_url || "/placeholder.svg"}
+                      unoptimized
                       alt={article.title}
                       width={800}
                       height={600}

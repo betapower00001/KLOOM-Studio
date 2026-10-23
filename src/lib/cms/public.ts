@@ -113,7 +113,8 @@ export async function getPublicProducts(): Promise<ProductCategory[]> {
         price: addon.price_text,
       })),
     }));
-  } catch {
+  } catch (error) {
+    console.error("CMS: failed to load products from Neon; serving fallback content", error);
     return fallbackProducts as ProductCategory[];
   }
 }
@@ -139,7 +140,8 @@ export async function getPublicArticles(): Promise<CmsArticle[]> {
       published: article.is_published,
       sort_order: article.sort_order,
     }));
-  } catch {
+  } catch (error) {
+    console.error("CMS: failed to load articles from Neon; serving fallback content", error);
     return fallbackArticles as CmsArticle[];
   }
 }
@@ -169,7 +171,8 @@ export async function getPublicArticle(slug: string): Promise<CmsArticle | null>
       published: article.is_published,
       sort_order: article.sort_order,
     };
-  } catch {
+  } catch (error) {
+    console.error("CMS: failed to load article detail from Neon; serving fallback content", error);
     return (fallbackArticles as CmsArticle[]).find((article) => article.slug === slug) ?? null;
   }
 }
@@ -193,7 +196,8 @@ export async function getPublicTestimonials(): Promise<CmsTestimonial[]> {
       published: item.is_published,
       sort_order: item.sort_order,
     }));
-  } catch {
+  } catch (error) {
+    console.error("CMS: failed to load testimonials from Neon; serving fallback content", error);
     return fallbackTestimonials;
   }
 }
@@ -216,7 +220,8 @@ export async function getPublicSettings(): Promise<CmsSettings> {
       if (row.key === "hero") settings.hero = { ...settings.hero, ...value };
     }
     return settings;
-  } catch {
+  } catch (error) {
+    console.error("CMS: failed to load site settings from Neon; serving fallback content", error);
     return fallbackSettings;
   }
 }
@@ -257,9 +262,41 @@ export async function getPublicReviewGallery(
       alt_text: item.alt_text,
     }));
   } catch (error) {
+    console.error("CMS: failed to load review gallery from Neon; serving fallback content", error);
     if (error instanceof Error && /review_gallery_images|does not exist/i.test(error.message)) {
       return fallbackReviewGallery(categoryId);
     }
     return fallbackReviewGallery(categoryId);
   }
+}
+
+/** Published portfolio cards displayed on the homepage. Matches the three fixed admin categories. */
+export type PublicPortfolioItem = {
+  category_id: number;
+  title: string;
+  description: string;
+  image_url: string;
+  review_url: string;
+};
+
+export async function getPublicPortfolio(): Promise<PublicPortfolioItem[]> {
+  // Never silently serve hard-coded portfolio images on a deployed website.
+  if (!isDatabaseConfigured()) {
+    throw new Error("DATABASE_URL is not configured for portfolio CMS");
+  }
+
+  const sql = getSql();
+  const rows = await sql`
+    select title, description, image_url, review_url
+    from portfolio_items
+    where is_published = true and review_url in ('/review/1', '/review/2', '/review/3')
+    order by sort_order, created_at
+  `;
+  return (rows as any[]).map((row) => ({
+    category_id: Number(String(row.review_url).split("/").pop()),
+    title: row.title,
+    description: row.description,
+    image_url: row.image_url,
+    review_url: row.review_url,
+  }));
 }

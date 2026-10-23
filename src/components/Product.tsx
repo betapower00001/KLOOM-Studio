@@ -150,6 +150,7 @@ export default function ProductPage() {
                           <Image
                             src={(selectedVariants[product.dbId ?? `${category.id ?? category.size}-${product.id}`] ?? { image: product.colors[0]?.image ?? product.mainImage ?? "/placeholder.svg", price: product.colors[0]?.price ?? "" }).image || "/placeholder.svg"}
                             alt={product.name}
+                            unoptimized
                             fill
                             className="object-contain"
                           />
@@ -181,6 +182,7 @@ export default function ProductPage() {
                                 <Image
                                   src={color.image || "/placeholder.svg"}
                                   alt={color.label}
+                                  unoptimized
                                   fill
                                   className="object-contain p-1"
                                 />
@@ -211,7 +213,7 @@ export default function ProductPage() {
                   <div key={addon.id} className="w-1/2 md:w-1/4 px-4 mb-6">
                     <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col items-center gap-2">
                       <div className="relative w-full h-28">
-                        <Image src={addon.image || "/placeholder.svg"} alt={addon.name} fill sizes="160px" className="object-contain" />
+                        <Image src={addon.image || "/placeholder.svg"} alt={addon.name} unoptimized fill sizes="160px" className="object-contain" />
                       </div>
                       <p className="text-center font-medium text-gray-700 text-[22px]">
                         {addon.name}

@@ -48,6 +48,7 @@ export default function ReviewGalleryClient({
           >
             <Image
               src={item.image_url}
+              unoptimized
               alt={item.alt_text || `Review ${index + 1}`}
               width={600}
               height={800}
@@ -82,6 +83,7 @@ export default function ReviewGalleryClient({
           <div onClick={(event) => event.stopPropagation()}>
             <Image
               src={images[active].image_url}
+              unoptimized
               alt={images[active].alt_text || "Zoom"}
               width={1800}
               height={1200}
