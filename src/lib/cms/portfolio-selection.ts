@@ -35,8 +35,12 @@ export function selectPortfolioCategories<T extends PortfolioCategoryRow>(rows: 
     candidates.sort((a, b) => {
       const published = Number(b.is_published) - Number(a.is_published);
       if (published) return published;
-      // Prefer the most recently saved record. Otherwise older demo rows
-      // can override a newly edited item in the same review category.
+      // Prefer usable saved records over an empty historical placeholder.
+      // Ignore empty draft placeholders if a usable published cover exists.
+      const usableA = Number(quality(a) >= 6);
+      const usableB = Number(quality(b) >= 6);
+      if (usableA !== usableB) return usableB - usableA;
+      // For legitimate records always show the most recently saved row.
       const recent = new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
       if (Number.isFinite(recent) && recent !== 0) return recent;
       const content = quality(b) - quality(a);
