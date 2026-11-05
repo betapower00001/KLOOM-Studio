@@ -36,6 +36,14 @@ export async function PUT(request: Request) {
       values ('feature_addons', ${JSON.stringify(items)}::jsonb)
       on conflict (key) do update set value = excluded.value, updated_at = now()
     `;
-    return NextResponse.json({ ok: true, items });
+    const checkRows = await sql`select value from site_settings where key = 'feature_addons' limit 1`;
+    const stored = checkRows.length ? parseFeatureAddons(checkRows[0].value) : [];
+    const same = stored.length === items.length && stored.every((row, index) =>
+      row.id === items[index].id && row.title === items[index].title &&
+      row.description === items[index].description && row.image_url === items[index].image_url &&
+      row.is_published === items[index].is_published && row.sort_order === items[index].sort_order
+    );
+    if (!same) throw new Error('ข้อมูลฟังก์ชันเสริมในฐานข้อมูลไม่ตรงกับที่บันทึก');
+    return NextResponse.json({ ok: true, items }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) { return apiError(error, 'บันทึกฟังก์ชันเสริมไม่สำเร็จ'); }
 }

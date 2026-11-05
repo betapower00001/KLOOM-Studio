@@ -6,27 +6,6 @@ import { portfolioCategoryId, selectPortfolioCategories } from "@/lib/cms/portfo
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const fixedPortfolio = [
-  {
-    categoryId: 1,
-    title: "เรียบหรู",
-    description: "ออกแบบและพัฒนางานถุงคลุมชุดที่ดูดี เหมาะกับภาพลักษณ์ของร้าน",
-    imageUrl: "/EX-1.jpg",
-  },
-  {
-    categoryId: 2,
-    title: "นำซีนแฟชั่น",
-    description: "ดีไซน์งานให้มีเอกลักษณ์ สวยทันสมัย และช่วยเสริมภาพลักษณ์แบรนด์",
-    imageUrl: "/EX-2.jpg",
-  },
-  {
-    categoryId: 3,
-    title: "ดีไซน์เป็นเอกลักษณ์",
-    description: "รวบรวมผลงานจริงและภาพรีวิวจากลูกค้าในแต่ละรูปแบบงาน",
-    imageUrl: "/EX-3.jpg",
-  },
-] as const;
-
 type PortfolioRow = {
   id: string;
   title: string;
@@ -58,33 +37,18 @@ function missingTableMessage(error: unknown) {
     : null;
 }
 
-async function ensureFixedPortfolio() {
+async function loadPortfolioCategories() {
   const sql = getSql();
-  const current = (await sql`
+  const rows = (await sql`
     select id, title, description, category, image_url, alt_text, review_url,
            is_published, sort_order, updated_at
     from portfolio_items
-    order by sort_order, created_at
+    where is_published = true
+    order by sort_order, updated_at desc
   `) as PortfolioRow[];
-
-  // Do not rewrite/republish existing rows during a GET: this used to cause
-  // old placeholder rows to resurface and overwrite intentional edits.
-  const existingCategories = new Set(selectPortfolioCategories(current).map(portfolioCategoryId));
-  for (const preset of fixedPortfolio) {
-    if (existingCategories.has(preset.categoryId)) continue;
-    const [created] = (await sql`
-      insert into portfolio_items (
-        title, description, category, image_url, alt_text, review_url, is_published, sort_order
-      ) values (
-        ${preset.title}, ${preset.description}, '', ${preset.imageUrl}, ${preset.title},
-        ${`/review/${preset.categoryId}`}, true, ${preset.categoryId}
-      )
-      returning id, title, description, category, image_url, alt_text, review_url,
-                is_published, sort_order, updated_at
-    `) as PortfolioRow[];
-    if (created) current.push(created);
-  }
-  return selectPortfolioCategories(current);
+  // A GET must never insert or resurrect seed data. Only the explicit PATCH
+  // route changes records, and both APIs use the same selection algorithm.
+  return selectPortfolioCategories(rows);
 }
 
 export async function GET() {
@@ -92,7 +56,7 @@ export async function GET() {
   if (auth.response) return auth.response;
 
   try {
-    return NextResponse.json(await ensureFixedPortfolio());
+    return NextResponse.json(await loadPortfolioCategories(), { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const message = missingTableMessage(error);
     if (message) return NextResponse.json({ error: message }, { status: 503 });
@@ -142,20 +106,51 @@ export async function PATCH(request: Request) {
     const imageUrl = validateImageUrl(body.data?.image_url);
     if (!imageUrl) throw new ApiInputError("กรุณาเลือกรูปปกหมวด");
 
-    await sql`
-      update portfolio_items
-      set title = ${title},
-          description = ${description},
-          category = '',
-          image_url = ${imageUrl},
-          alt_text = ${title},
-          review_url = ${`/review/${categoryId}`},
-          is_published = true,
-          sort_order = ${categoryId}
-      where id = ${body.id}::uuid
-    `;
+    const reviewUrl = `/review/${categoryId}`;
+    // Keep only the edited record published in this fixed review category.
+    // Historical imports produced duplicate /review/1 rows; saving just one
+    // previously left an older row published, which the public API could show.
+    // Execute both statements atomically; do not delete customer data.
+    const result = await sql.transaction([
+      sql`
+        update portfolio_items
+        set title = ${title}, description = ${description}, category = '',
+            image_url = ${imageUrl}, alt_text = ${title},
+            review_url = ${reviewUrl}, is_published = true,
+            sort_order = ${categoryId}
+        where id = ${body.id}::uuid
+        returning id
+      `,
+      sql`
+        update portfolio_items
+        set is_published = false
+        where id <> ${body.id}::uuid
+          and is_published = true
+          and (
+            review_url = ${reviewUrl}
+            or (coalesce(review_url, '') = '' and sort_order = ${categoryId})
+          )
+        returning id
+      `,
+    ]);
+    if (!result[0].length) {
+      throw new Error("ไม่พบรายการที่ต้องการบันทึกในฐานข้อมูล");
+    }
 
-    return NextResponse.json({ ok: true });
+    // Read back from Neon so the UI can distinguish committed data from a
+    // request that merely returned HTTP 200.
+    const [saved] = await sql`
+      select id, title, description, image_url, review_url, is_published,
+             sort_order, updated_at
+      from portfolio_items where id = ${body.id}::uuid limit 1
+    `;
+    if (!saved || saved.title !== title || saved.image_url !== imageUrl || !saved.is_published) {
+      throw new Error("ตรวจสอบข้อมูลหลังบันทึกจาก Neon ไม่ตรงกับที่ส่งมา");
+    }
+    return NextResponse.json(
+      { ok: true, category_id: categoryId, item: saved, hidden_duplicate_count: result[1].length },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch (error) {
     const message = missingTableMessage(error);
     if (message) return NextResponse.json({ error: message }, { status: 503 });
