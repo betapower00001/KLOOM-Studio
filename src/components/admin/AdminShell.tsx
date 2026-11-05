@@ -9,6 +9,7 @@ import {
   LogOut,
   Menu,
   Images,
+  Sparkles,
   Settings,
   UserRound,
   X,
@@ -20,6 +21,7 @@ const links = [
   { href: "/admin/products", label: "สินค้าและราคา", icon: Boxes },
   { href: "/admin/articles", label: "บทความ", icon: BookOpen },
   { href: "/admin/portfolio", label: "ตัวอย่างผลงานของเรา", icon: Images },
+  { href: "/admin/feature-addons", label: "ฟังก์ชันเสริมที่เลือกได้", icon: Sparkles },
   { href: "/admin/settings", label: "ข้อมูลเว็บไซต์", icon: Settings },
   { href: "/admin/account", label: "บัญชีผู้ดูแล", icon: UserRound },
 ];

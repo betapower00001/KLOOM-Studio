@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 
 type PortfolioItem = {
   category_id: number;
@@ -35,6 +35,18 @@ const initialProjects: PortfolioItem[] = [
     review_url: "/review/3",
   },
 ];
+
+function PortfolioCover({ src, title }: { src: string; title: string }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => { setFailed(false); }, [src]);
+  if (!src || failed) return (
+    <div className="flex h-56 items-center justify-center bg-slate-100 px-4 text-center text-sm text-slate-500">
+      ยังไม่มีรูปปกที่แสดงได้ — กรุณาอัปโหลดรูปในหลังบ้าน
+    </div>
+  );
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={src} alt={title} loading="lazy" onError={() => setFailed(true)} className="w-full h-56 object-cover cursor-pointer transition-transform duration-300 hover:scale-105" />;
+}
 
 export default function Portfolio() {
   const [projects, setProjects] = useState<PortfolioItem[]>(initialProjects);
@@ -69,14 +81,7 @@ export default function Portfolio() {
               className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300"
             >
               <Link href={item.review_url} className="block">
-                <Image
-                  src={item.image_url || "/placeholder.svg"}
-                  alt={item.title}
-                  width={600}
-                  height={400}
-                  unoptimized
-                  className="w-full h-56 object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
-                />
+                <PortfolioCover src={item.image_url} title={item.title} />
               </Link>
               <div className="p-6 text-center">
                 <h3 className="text-xl font-semibold text-[#454456] mb-2">{item.title}</h3>
