@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ApiInputError, authorizeAdminApi, apiError } from "@/lib/api/admin";
 import { getSql } from "@/lib/neon/server";
+import { portfolioCategoryId, selectPortfolioCategories } from "@/lib/cms/portfolio-selection";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -36,17 +37,11 @@ type PortfolioRow = {
   review_url: string;
   is_published: boolean;
   sort_order: number;
+  updated_at: string | Date;
 };
 
 function cleanText(value: unknown, maximum: number) {
   return String(value ?? "").trim().slice(0, maximum);
-}
-
-function fixedCategoryFromRow(row: Pick<PortfolioRow, "review_url" | "sort_order">) {
-  const match = String(row.review_url || "").match(/\/review\/(1|2|3)(?:\/|$|\?)/i);
-  if (match) return Number(match[1]);
-  const order = Number(row.sort_order);
-  return order >= 1 && order <= 3 ? order : null;
 }
 
 function validateImageUrl(value: unknown) {
@@ -67,70 +62,29 @@ async function ensureFixedPortfolio() {
   const sql = getSql();
   const current = (await sql`
     select id, title, description, category, image_url, alt_text, review_url,
-           is_published, sort_order
+           is_published, sort_order, updated_at
     from portfolio_items
     order by sort_order, created_at
   `) as PortfolioRow[];
 
-  const usedIds = new Set<string>();
-
+  // Do not rewrite/republish existing rows during a GET: this used to cause
+  // old placeholder rows to resurface and overwrite intentional edits.
+  const existingCategories = new Set(selectPortfolioCategories(current).map(portfolioCategoryId));
   for (const preset of fixedPortfolio) {
-    let row = current.find(
-      (item) => !usedIds.has(item.id) && fixedCategoryFromRow(item) === preset.categoryId,
-    );
-
-    if (!row) {
-      row = current.find(
-        (item) => !usedIds.has(item.id) && Number(item.sort_order) === preset.categoryId,
-      );
-    }
-
-    if (!row) {
-      const [created] = (await sql`
-        insert into portfolio_items (
-          title, description, category, image_url, alt_text, review_url, is_published, sort_order
-        ) values (
-          ${preset.title}, ${preset.description}, '', ${preset.imageUrl}, ${preset.title},
-          ${`/review/${preset.categoryId}`}, true, ${preset.categoryId}
-        )
-        returning id, title, description, category, image_url, alt_text, review_url,
-                  is_published, sort_order
-      `) as PortfolioRow[];
-      if (created) {
-        current.push(created);
-        row = created;
-      }
-    } else {
-      const [updated] = (await sql`
-        update portfolio_items
-        set review_url = ${`/review/${preset.categoryId}`},
-            sort_order = ${preset.categoryId},
-            is_published = true,
-            category = '',
-            alt_text = case when trim(coalesce(alt_text, '')) = '' then title else alt_text end
-        where id = ${row.id}::uuid
-        returning id, title, description, category, image_url, alt_text, review_url,
-                  is_published, sort_order
-      `) as PortfolioRow[];
-      if (updated) row = updated;
-    }
-
-    if (row) usedIds.add(row.id);
+    if (existingCategories.has(preset.categoryId)) continue;
+    const [created] = (await sql`
+      insert into portfolio_items (
+        title, description, category, image_url, alt_text, review_url, is_published, sort_order
+      ) values (
+        ${preset.title}, ${preset.description}, '', ${preset.imageUrl}, ${preset.title},
+        ${`/review/${preset.categoryId}`}, true, ${preset.categoryId}
+      )
+      returning id, title, description, category, image_url, alt_text, review_url,
+                is_published, sort_order, updated_at
+    `) as PortfolioRow[];
+    if (created) current.push(created);
   }
-
-  const refreshed = (await sql`
-    select id, title, description, category, image_url, alt_text, review_url,
-           is_published, sort_order
-    from portfolio_items
-    where review_url in ('/review/1', '/review/2', '/review/3')
-    order by sort_order
-  `) as PortfolioRow[];
-
-  return fixedPortfolio
-    .map((preset) =>
-      refreshed.find((row) => fixedCategoryFromRow(row) === preset.categoryId),
-    )
-    .filter((row): row is PortfolioRow => Boolean(row));
+  return selectPortfolioCategories(current);
 }
 
 export async function GET() {
@@ -176,7 +130,7 @@ export async function PATCH(request: Request) {
     `) as PortfolioRow[];
     if (!existing) throw new ApiInputError("ไม่พบรายการผลงานที่ต้องการแก้ไข");
 
-    const categoryId = fixedCategoryFromRow(existing);
+    const categoryId = portfolioCategoryId(existing);
     if (!categoryId) {
       throw new ApiInputError("รายการนี้ไม่ใช่หนึ่งใน 3 หมวดตัวอย่างผลงาน");
     }

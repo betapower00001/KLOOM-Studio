@@ -3,6 +3,7 @@ import fallbackArticles from "@/data/fallback-articles.json";
 import type { CmsArticle, CmsSettings, CmsTestimonial, ProductCategory } from "./types";
 import { isDatabaseConfigured } from "@/lib/neon/config";
 import { getSql } from "@/lib/neon/server";
+import { portfolioCategoryId, selectPortfolioCategories, type PortfolioCategoryRow } from "./portfolio-selection";
 
 function hashId(value: string) {
   let hash = 0;
@@ -291,17 +292,22 @@ export async function getPublicPortfolio(): Promise<PublicPortfolioItem[]> {
   }
 
   const sql = getSql();
-  const rows = await sql`
-    select title, description, image_url, review_url
+  const rows = (await sql`
+    select id, title, description, image_url, review_url,
+           is_published, sort_order, updated_at
     from portfolio_items
-    where is_published = true and review_url in ('/review/1', '/review/2', '/review/3')
-    order by sort_order, created_at
-  `;
-  return (rows as any[]).map((row) => ({
-    category_id: Number(String(row.review_url).split("/").pop()),
+    where is_published = true
+    order by sort_order, updated_at desc
+  `) as PortfolioCategoryRow[];
+
+  // The public API must return exactly one record per review category, using
+  // the same canonical selection as the admin. Duplicate historical rows
+  // (including empty "ผลงานใหม่" placeholders) are not deleted.
+  return selectPortfolioCategories(rows).map((row) => ({
+    category_id: portfolioCategoryId(row)!,
     title: row.title,
     description: row.description,
     image_url: row.image_url,
-    review_url: row.review_url,
+    review_url: `/review/${portfolioCategoryId(row)}`,
   }));
 }

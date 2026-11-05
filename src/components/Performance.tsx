@@ -12,29 +12,6 @@ type PortfolioItem = {
   review_url: string;
 };
 
-const initialProjects: PortfolioItem[] = [
-  {
-    category_id: 1,
-    title: "เรียบหรู",
-    description: "ออกแบบและพัฒนางานถุงคลุมชุดที่ดูดี เหมาะกับภาพลักษณ์ของร้าน",
-    image_url: "/EX-1.jpg",
-    review_url: "/review/1",
-  },
-  {
-    category_id: 2,
-    title: "นำซีนแฟชั่น",
-    description: "ดีไซน์งานให้มีเอกลักษณ์ สวยทันสมัย และช่วยเสริมภาพลักษณ์แบรนด์",
-    image_url: "/EX-2.jpg",
-    review_url: "/review/2",
-  },
-  {
-    category_id: 3,
-    title: "ดีไซน์เป็นเอกลักษณ์",
-    description: "รวบรวมผลงานจริงและภาพรีวิวจากลูกค้าในแต่ละรูปแบบงาน",
-    image_url: "/EX-3.jpg",
-    review_url: "/review/3",
-  },
-];
 
 function PortfolioCover({ src, title }: { src: string; title: string }) {
   const [failed, setFailed] = useState(false);
