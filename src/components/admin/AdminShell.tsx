@@ -10,6 +10,7 @@ import {
   Menu,
   Images,
   Sparkles,
+  ArrowLeftRight,
   Settings,
   UserRound,
   X,
@@ -22,6 +23,7 @@ const links = [
   { href: "/admin/articles", label: "บทความ", icon: BookOpen },
   { href: "/admin/portfolio", label: "ตัวอย่างผลงานของเรา", icon: Images },
   { href: "/admin/feature-addons", label: "ฟังก์ชันเสริมที่เลือกได้", icon: Sparkles },
+  { href: "/admin/cms-transfer", label: "ย้ายข้อมูล CMS", icon: ArrowLeftRight },
   { href: "/admin/settings", label: "ข้อมูลเว็บไซต์", icon: Settings },
   { href: "/admin/account", label: "บัญชีผู้ดูแล", icon: UserRound },
 ];
