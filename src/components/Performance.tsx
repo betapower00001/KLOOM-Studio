@@ -49,22 +49,39 @@ function PortfolioCover({ src, title }: { src: string; title: string }) {
 }
 
 export default function Portfolio() {
-  const [projects, setProjects] = useState<PortfolioItem[]>(initialProjects);
+  const [projects, setProjects] = useState<PortfolioItem[]>([]);
+  const [loadError, setLoadError] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetch("/api/cms/portfolio", { cache: "no-store", signal: controller.signal })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`โหลดผลงานไม่สำเร็จ (HTTP ${response.status})`);
-        return response.json();
-      })
-      .then((data: unknown) => {
-        if (Array.isArray(data)) setProjects(data as PortfolioItem[]);
-      })
-      .catch((error: unknown) => {
-        if (!controller.signal.aborted) console.error("Portfolio CMS:", error);
-      });
-    return () => controller.abort();
+    let active = true;
+    const controllers = new Set<AbortController>();
+    async function reload() {
+      const controller = new AbortController();
+      controllers.add(controller);
+      try {
+        const response = await fetch("/api/cms/portfolio", { cache: "no-store", signal: controller.signal });
+        if (!response.ok) throw new Error(`API ตัวอย่างผลงานตอบ HTTP ${response.status}`);
+        const data: unknown = await response.json();
+        if (!Array.isArray(data)) throw new Error("ข้อมูลจาก API ไม่ใช่รายการผลงาน");
+        if (active) { setProjects(data as PortfolioItem[]); setLoadError(""); setLoaded(true); }
+      } catch (error) {
+        if (active && !controller.signal.aborted) {
+          setLoadError(error instanceof Error ? error.message : "โหลดข้อมูลจาก CMS ไม่สำเร็จ");
+          setLoaded(true);
+        }
+      } finally { controllers.delete(controller); }
+    }
+    void reload();
+    const refresh = () => { if (document.visibilityState === "visible") void reload(); };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      active = false;
+      controllers.forEach((controller) => controller.abort());
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
   }, []);
 
   return (
@@ -74,6 +91,13 @@ export default function Portfolio() {
           ตัวอย่างผลงานของเรา
         </h2>
 
+        {loadError && (
+          <p role="alert" className="mb-8 rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm text-red-800">
+            ไม่สามารถโหลดตัวอย่างผลงานจากระบบหลังบ้านได้: {loadError} กรุณาตรวจสอบ DATABASE_URL และ API /api/cms/portfolio
+          </p>
+        )}
+        {!loaded && <p className="mb-6 text-center text-gray-500">กำลังโหลดผลงาน…</p>}
+        {loaded && !loadError && projects.length === 0 && <p className="mb-6 text-center text-gray-500">ยังไม่มีผลงานที่เผยแพร่</p>}
         <div className="grid md:grid-cols-3 gap-10">
           {projects.map((item) => (
             <div

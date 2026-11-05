@@ -35,7 +35,17 @@ export default function FeatureAddonManager() {
     try {
       const data = items.map((item, index) => ({ ...item, sort_order: index + 1 }));
       await adminFetch('/api/admin/feature-addons', { method: 'PUT', body: JSON.stringify(data) });
-      setItems(data); setMessage('บันทึกฟังก์ชันเสริมเรียบร้อยแล้ว');
+      setItems(data);
+      try {
+        const publicItems = await adminFetch<FeatureAddon[]>('/api/cms/feature-addons');
+        const expected = data.filter((item) => item.is_published);
+        const matches = expected.length === publicItems.length && expected.every((item) =>
+          publicItems.some((publicItem) => publicItem.id === item.id && publicItem.title === item.title && publicItem.description === item.description && publicItem.image_url === item.image_url)
+        );
+        setMessage(matches ? 'บันทึกและตรวจสอบ API หน้าเว็บเรียบร้อยแล้ว' : 'บันทึกลงฐานข้อมูลแล้ว แต่ API หน้าเว็บแสดงข้อมูลไม่ตรงกัน');
+      } catch (verificationError) {
+        setMessage(`บันทึกลงฐานข้อมูลแล้ว แต่ตรวจสอบ API หน้าเว็บไม่ได้: ${verificationError instanceof Error ? verificationError.message : 'ไม่ทราบสาเหตุ'}`);
+      }
     } catch (error) { setMessage(error instanceof Error ? error.message : 'บันทึกไม่สำเร็จ'); }
     finally { setSaving(false); }
   }

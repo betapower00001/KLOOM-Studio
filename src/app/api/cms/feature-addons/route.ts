@@ -8,7 +8,7 @@ export const runtime = 'nodejs';
 
 export async function GET() {
   try {
-    if (!isDatabaseConfigured()) return NextResponse.json(defaultFeatureAddons);
+    if (!isDatabaseConfigured()) return NextResponse.json({ error: 'DATABASE_URL ไม่ได้ตั้งค่าในระบบที่กำลังรัน' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
     const sql = getSql();
     const rows = await sql`select value from site_settings where key = 'feature_addons' limit 1`;
     const items = rows.length ? parseFeatureAddons(rows[0].value) : defaultFeatureAddons;

@@ -121,8 +121,18 @@ export default function PortfolioManager() {
           },
         }),
       });
-      setMessage(`บันทึกหมวด ${categoryId} เรียบร้อยแล้ว`);
       await load();
+      try {
+        const publicRows = await adminFetch<{ category_id: number; title: string; description: string; image_url: string }[]>(
+          "/api/cms/portfolio"
+        );
+        const published = publicRows.find((row) => row.category_id === categoryId);
+        setMessage(published && published.title === item.title && published.description === item.description && published.image_url === item.image_url
+          ? `บันทึกและตรวจสอบ API หน้าเว็บหมวด ${categoryId} เรียบร้อยแล้ว`
+          : `บันทึกลงฐานข้อมูลแล้ว แต่ API หน้าเว็บยังแสดงข้อมูลไม่ตรงกับหมวด ${categoryId}`);
+      } catch (verificationError) {
+        setMessage(`บันทึกลงฐานข้อมูลแล้ว แต่ตรวจสอบ API หน้าเว็บไม่ได้: ${verificationError instanceof Error ? verificationError.message : "ไม่ทราบสาเหตุ"}`);
+      }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "บันทึกข้อมูลไม่สำเร็จ");
     } finally {
