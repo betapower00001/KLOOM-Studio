@@ -151,7 +151,8 @@ export async function PATCH(request: Request) {
           alt_text = ${title},
           review_url = ${`/review/${categoryId}`},
           is_published = true,
-          sort_order = ${categoryId}
+          sort_order = ${categoryId},
+          updated_at = now()
       where id = ${body.id}::uuid
     `;
 
