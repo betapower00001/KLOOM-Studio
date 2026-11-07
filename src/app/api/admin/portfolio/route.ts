@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { ApiInputError, authorizeAdminApi, apiError } from "@/lib/api/admin";
 import { getSql } from "@/lib/neon/server";
 import { portfolioCategoryId, selectPortfolioCategories } from "@/lib/cms/portfolio-selection";
@@ -124,6 +125,12 @@ export async function PATCH(request: Request) {
     if (!canonical || canonical.id !== body.id || canonical.title !== title || canonical.description !== description || canonical.image_url !== imageUrl) {
       return NextResponse.json({ error: 'บันทึกแล้วแต่ข้อมูลที่อ่านกลับจาก Neon ไม่ตรงกับรายการที่แก้ไข อาจมีผลงานซ้ำในหมวดนี้' }, { status: 409, headers: { 'Cache-Control': 'no-store' } });
     }
+
+    // ⚡ เพิ่มการล้าง Cache หน้าบ้านให้อัตโนมัติทันทีที่บันทึกสำเร็จ
+    revalidatePath("/portfolio");
+    revalidatePath("/api/cms/portfolio");
+    revalidatePath("/");
+
     return NextResponse.json({ ok: true, item: canonical }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) {
     const message = missingTableMessage(error);

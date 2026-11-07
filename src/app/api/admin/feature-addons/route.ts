@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { ApiInputError, authorizeAdminApi, apiError } from '@/lib/api/admin';
 import { getSql } from '@/lib/neon/server';
 import { parseFeatureAddons } from '@/lib/cms/addons';
@@ -43,6 +44,12 @@ export async function PUT(request: Request) {
     if (JSON.stringify(savedItems) !== JSON.stringify(parseFeatureAddons(items))) {
       return NextResponse.json({ error: 'บันทึกแล้วแต่ข้อมูลที่อ่านกลับจาก Neon ไม่ตรงกัน กรุณาลองใหม่' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
     }
+
+    // ⚡ เคลียร์ Cache ของหน้าบ้านให้อัตโนมัติหลังบันทึกข้อมูลสำเร็จ
+    revalidatePath('/features');
+    revalidatePath('/api/cms/feature-addons');
+    revalidatePath('/');
+
     return NextResponse.json({ ok: true, items: savedItems }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) { return apiError(error, 'บันทึกฟังก์ชันเสริมไม่สำเร็จ'); }
 }
