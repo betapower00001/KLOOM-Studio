@@ -15,7 +15,10 @@ export default function Exaddon() {
       controllers.add(controller);
       try {
         const response = await fetch('/api/cms/feature-addons', { cache: 'no-store', signal: controller.signal });
-        if (!response.ok) throw new Error(`API ฟังก์ชันเสริมตอบ HTTP ${response.status}`);
+        if (!response.ok) {
+          const problem = await response.json().catch(() => ({}));
+          throw new Error(typeof problem.error === 'string' ? problem.error : `API ฟังก์ชันเสริมตอบ HTTP ${response.status}`);
+        }
         const data: unknown = await response.json();
         if (!Array.isArray(data)) throw new Error('ข้อมูลจาก API ไม่ใช่รายการฟังก์ชันเสริม');
         if (active) { setAddons(data as FeatureAddon[]); setLoadError(''); setLoaded(true); }

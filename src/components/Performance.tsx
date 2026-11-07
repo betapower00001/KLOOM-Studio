@@ -38,7 +38,10 @@ export default function Portfolio() {
       controllers.add(controller);
       try {
         const response = await fetch("/api/cms/portfolio", { cache: "no-store", signal: controller.signal });
-        if (!response.ok) throw new Error(`API ตัวอย่างผลงานตอบ HTTP ${response.status}`);
+        if (!response.ok) {
+          const problem = await response.json().catch(() => ({}));
+          throw new Error(typeof problem.error === "string" ? problem.error : `API ตัวอย่างผลงานตอบ HTTP ${response.status}`);
+        }
         const data: unknown = await response.json();
         if (!Array.isArray(data)) throw new Error("ข้อมูลจาก API ไม่ใช่รายการผลงาน");
         if (active) { setProjects(data as PortfolioItem[]); setLoadError(""); setLoaded(true); }

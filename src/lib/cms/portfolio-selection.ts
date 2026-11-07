@@ -35,10 +35,11 @@ export function selectPortfolioCategories<T extends PortfolioCategoryRow>(rows: 
     candidates.sort((a, b) => {
       const published = Number(b.is_published) - Number(a.is_published);
       if (published) return published;
-      const content = quality(b) - quality(a);
-      if (content) return content;
+      // An admin's latest saved edit must win over older, more complete seeded rows.
       const recent = new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
       if (Number.isFinite(recent) && recent !== 0) return recent;
+      const content = quality(b) - quality(a);
+      if (content) return content;
       return a.id.localeCompare(b.id);
     });
     return candidates.length ? [candidates[0]] : [];
