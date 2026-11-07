@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ApiInputError, authorizeAdminApi, apiError } from '@/lib/api/admin';
 import { getSql } from '@/lib/neon/server';
-import { defaultFeatureAddons, parseFeatureAddons } from '@/lib/cms/addons';
+import { parseFeatureAddons } from '@/lib/cms/addons';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -12,7 +12,7 @@ export async function GET() {
   try {
     const sql = getSql();
     const rows = await sql`select value from site_settings where key = 'feature_addons' limit 1`;
-    return NextResponse.json(rows.length ? parseFeatureAddons(rows[0].value) : defaultFeatureAddons);
+    return NextResponse.json(rows.length ? parseFeatureAddons(rows[0].value) : [], { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) { return apiError(error, 'โหลดฟังก์ชันเสริมไม่สำเร็จ'); }
 }
 
@@ -36,6 +36,13 @@ export async function PUT(request: Request) {
       values ('feature_addons', ${JSON.stringify(items)}::jsonb)
       on conflict (key) do update set value = excluded.value, updated_at = now()
     `;
-    return NextResponse.json({ ok: true, items });
+    // Verify database state, not merely the request body. Never report success
+    // if the persistence layer did not return the saved data.
+    const persisted = await sql`select value from site_settings where key = 'feature_addons' limit 1`;
+    const savedItems = persisted.length ? parseFeatureAddons(persisted[0].value) : [];
+    if (JSON.stringify(savedItems) !== JSON.stringify(parseFeatureAddons(items))) {
+      return NextResponse.json({ error: 'บันทึกแล้วแต่ข้อมูลที่อ่านกลับจาก Neon ไม่ตรงกัน กรุณาลองใหม่' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+    }
+    return NextResponse.json({ ok: true, items: savedItems }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) { return apiError(error, 'บันทึกฟังก์ชันเสริมไม่สำเร็จ'); }
 }

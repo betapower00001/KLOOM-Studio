@@ -8,15 +8,9 @@ export type FeatureAddon = {
   sort_order: number;
 };
 
-export const defaultFeatureAddons: FeatureAddon[] = [
-  { id: 'front-cap', title: 'เพิ่มหมวกด้านหน้า', description: 'ดีไซน์เรียบหรู เพิ่มความสะดวกและเสริมความพรีเมียมให้กับสินค้า', image_url: '/AddonEx-1.png', is_published: true, sort_order: 1 },
-  { id: 'handles', title: 'เพิ่มหูหิ้ว บน-ล่าง', description: 'รายละเอียดที่สะท้อนถึงความประณีตและความใส่ใจในทุกขั้นตอน', image_url: '/AddonEx--2.jpg', is_published: true, sort_order: 2 },
-  { id: 'buttons', title: 'เพิ่มกระดุม', description: 'ปรับแต่งเฉพาะตัวให้ตรงกับสไตล์ของคุณอย่างเหนือระดับ', image_url: '/AddonEx-3.jpg', is_published: true, sort_order: 3 },
-];
-
 export function parseFeatureAddons(value: unknown): FeatureAddon[] {
   const parsed = typeof value === 'string' ? JSON.parse(value) as unknown : value;
-  if (!Array.isArray(parsed)) return defaultFeatureAddons;
+  if (!Array.isArray(parsed)) return []; // Never replace stored CMS content with bundled examples
   return parsed.filter((item): item is Record<string, unknown> => !!item && typeof item === 'object' && !Array.isArray(item))
     .map((item, index) => ({
       id: String(item.id ?? `item-${index}`).slice(0, 100),

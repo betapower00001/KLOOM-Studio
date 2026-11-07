@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUp, Loader2, Plus, Save, Trash2 } from 'lucide-react';
 import MediaUpload from './MediaUpload';
 import { adminFetch } from '@/lib/admin/api';
 import type { FeatureAddon } from '@/lib/cms/addons';
+import { announceCmsChange } from '@/lib/cms/live-sync';
 
 export default function FeatureAddonManager() {
   const [items, setItems] = useState<FeatureAddon[]>([]);
@@ -34,11 +35,13 @@ export default function FeatureAddonManager() {
     setSaving(true); setMessage('');
     try {
       const data = items.map((item, index) => ({ ...item, sort_order: index + 1 }));
-      await adminFetch('/api/admin/feature-addons', { method: 'PUT', body: JSON.stringify(data) });
-      setItems(data);
+      const result = await adminFetch<{ ok: boolean; items: FeatureAddon[] }>('/api/admin/feature-addons', { method: 'PUT', body: JSON.stringify(data) });
+      if (!result.ok || !Array.isArray(result.items)) throw new Error('เซิร์ฟเวอร์ไม่ได้ยืนยันข้อมูลที่บันทึก');
+      setItems(result.items);
+      announceCmsChange('feature-addons');
       try {
         const publicItems = await adminFetch<FeatureAddon[]>('/api/cms/feature-addons');
-        const expected = data.filter((item) => item.is_published);
+        const expected = result.items.filter((item) => item.is_published);
         const matches = expected.length === publicItems.length && expected.every((item) =>
           publicItems.some((publicItem) => publicItem.id === item.id && publicItem.title === item.title && publicItem.description === item.description && publicItem.image_url === item.image_url)
         );

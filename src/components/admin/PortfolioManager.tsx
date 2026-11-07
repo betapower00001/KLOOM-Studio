@@ -5,6 +5,7 @@ import { ExternalLink, ImageIcon, Loader2, Save } from "lucide-react";
 import { adminFetch } from "@/lib/admin/api";
 import MediaUpload from "./MediaUpload";
 import ReviewGalleryManager from "./ReviewGalleryManager";
+import { announceCmsChange } from "@/lib/cms/live-sync";
 
 type PortfolioItem = {
   id: string;
@@ -108,7 +109,7 @@ export default function PortfolioManager() {
     setBusy(`save-${item.id}`);
     setMessage("");
     try {
-      await adminFetch("/api/admin/portfolio", {
+      const result = await adminFetch<{ ok: boolean; item: PortfolioItem }>("/api/admin/portfolio", {
         method: "PATCH",
         body: JSON.stringify({
           id: item.id,
@@ -121,7 +122,9 @@ export default function PortfolioManager() {
           },
         }),
       });
-      await load();
+      if (!result.ok || !result.item || result.item.id !== item.id) throw new Error("เซิร์ฟเวอร์ไม่ได้ยืนยันรายการผลงานที่บันทึก");
+      setItems((current) => current.map((row) => row.id === item.id ? result.item : row));
+      announceCmsChange("portfolio");
       try {
         const publicRows = await adminFetch<{ category_id: number; title: string; description: string; image_url: string }[]>(
           "/api/cms/portfolio"

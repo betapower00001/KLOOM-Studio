@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { listenForCmsChanges } from "@/lib/cms/live-sync";
 import Link from "next/link";
 
 
@@ -57,11 +58,13 @@ export default function Portfolio() {
     }
     void reload();
     const refresh = () => { if (document.visibilityState === "visible") void reload(); };
-    const poll = window.setInterval(refresh, 5000);
+    const poll = window.setInterval(refresh, 3000);
+    const stopListening = listenForCmsChanges("portfolio", refresh);
     window.addEventListener("focus", refresh);
     document.addEventListener("visibilitychange", refresh);
     return () => {
       active = false;
+      stopListening();
       window.clearInterval(poll);
       controllers.forEach((controller) => controller.abort());
       window.removeEventListener("focus", refresh);

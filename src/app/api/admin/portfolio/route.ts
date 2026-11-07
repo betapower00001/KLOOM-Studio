@@ -6,27 +6,6 @@ import { portfolioCategoryId, selectPortfolioCategories } from "@/lib/cms/portfo
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const fixedPortfolio = [
-  {
-    categoryId: 1,
-    title: "เรียบหรู",
-    description: "ออกแบบและพัฒนางานถุงคลุมชุดที่ดูดี เหมาะกับภาพลักษณ์ของร้าน",
-    imageUrl: "/EX-1.jpg",
-  },
-  {
-    categoryId: 2,
-    title: "นำซีนแฟชั่น",
-    description: "ดีไซน์งานให้มีเอกลักษณ์ สวยทันสมัย และช่วยเสริมภาพลักษณ์แบรนด์",
-    imageUrl: "/EX-2.jpg",
-  },
-  {
-    categoryId: 3,
-    title: "ดีไซน์เป็นเอกลักษณ์",
-    description: "รวบรวมผลงานจริงและภาพรีวิวจากลูกค้าในแต่ละรูปแบบงาน",
-    imageUrl: "/EX-3.jpg",
-  },
-] as const;
-
 type PortfolioRow = {
   id: string;
   title: string;
@@ -58,33 +37,16 @@ function missingTableMessage(error: unknown) {
     : null;
 }
 
-async function ensureFixedPortfolio() {
+async function readPortfolioCategories() {
   const sql = getSql();
-  const current = (await sql`
+  const rows = (await sql`
     select id, title, description, category, image_url, alt_text, review_url,
            is_published, sort_order, updated_at
     from portfolio_items
-    order by sort_order, created_at
+    order by sort_order, updated_at desc
   `) as PortfolioRow[];
-
-  // Do not rewrite/republish existing rows during a GET: this used to cause
-  // old placeholder rows to resurface and overwrite intentional edits.
-  const existingCategories = new Set(selectPortfolioCategories(current).map(portfolioCategoryId));
-  for (const preset of fixedPortfolio) {
-    if (existingCategories.has(preset.categoryId)) continue;
-    const [created] = (await sql`
-      insert into portfolio_items (
-        title, description, category, image_url, alt_text, review_url, is_published, sort_order
-      ) values (
-        ${preset.title}, ${preset.description}, '', ${preset.imageUrl}, ${preset.title},
-        ${`/review/${preset.categoryId}`}, true, ${preset.categoryId}
-      )
-      returning id, title, description, category, image_url, alt_text, review_url,
-                is_published, sort_order, updated_at
-    `) as PortfolioRow[];
-    if (created) current.push(created);
-  }
-  return selectPortfolioCategories(current);
+  // Read-only, same selection function as the public API.
+  return selectPortfolioCategories(rows);
 }
 
 export async function GET() {
@@ -92,7 +54,7 @@ export async function GET() {
   if (auth.response) return auth.response;
 
   try {
-    return NextResponse.json(await ensureFixedPortfolio());
+    return NextResponse.json(await readPortfolioCategories(), { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) {
     const message = missingTableMessage(error);
     if (message) return NextResponse.json({ error: message }, { status: 503 });
@@ -142,7 +104,7 @@ export async function PATCH(request: Request) {
     const imageUrl = validateImageUrl(body.data?.image_url);
     if (!imageUrl) throw new ApiInputError("กรุณาเลือกรูปปกหมวด");
 
-    await sql`
+    const updated = await sql`
       update portfolio_items
       set title = ${title},
           description = ${description},
@@ -154,9 +116,15 @@ export async function PATCH(request: Request) {
           sort_order = ${categoryId},
           updated_at = now()
       where id = ${body.id}::uuid
+      returning id
     `;
-
-    return NextResponse.json({ ok: true });
+    if (!updated.length) throw new ApiInputError('ไม่พบข้อมูลที่แก้ไขในฐานข้อมูล');
+    const saved = await readPortfolioCategories();
+    const canonical = saved.find((row) => portfolioCategoryId(row) === categoryId);
+    if (!canonical || canonical.id !== body.id || canonical.title !== title || canonical.description !== description || canonical.image_url !== imageUrl) {
+      return NextResponse.json({ error: 'บันทึกแล้วแต่ข้อมูลที่อ่านกลับจาก Neon ไม่ตรงกับรายการที่แก้ไข อาจมีผลงานซ้ำในหมวดนี้' }, { status: 409, headers: { 'Cache-Control': 'no-store' } });
+    }
+    return NextResponse.json({ ok: true, item: canonical }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } });
   } catch (error) {
     const message = missingTableMessage(error);
     if (message) return NextResponse.json({ error: message }, { status: 503 });
