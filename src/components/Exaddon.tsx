@@ -10,11 +10,14 @@ export default function Exaddon() {
   useEffect(() => {
     let active = true;
     const controllers = new Set<AbortController>();
+    let inFlight = false;
     async function reload() {
+      if (inFlight || !active) return;
+      inFlight = true;
       const controller = new AbortController();
       controllers.add(controller);
       try {
-        const response = await fetch('/api/cms/feature-addons', { cache: 'no-store', signal: controller.signal });
+        const response = await fetch(`/api/cms/feature-addons?t=${Date.now()}`, { cache: 'no-store', signal: controller.signal });
         if (!response.ok) {
           const problem = await response.json().catch(() => ({}));
           throw new Error(typeof problem.error === 'string' ? problem.error : `API ฟังก์ชันเสริมตอบ HTTP ${response.status}`);
@@ -27,14 +30,16 @@ export default function Exaddon() {
           setLoadError(error instanceof Error ? error.message : 'โหลดฟังก์ชันเสริมไม่สำเร็จ');
           setLoaded(true);
         }
-      } finally { controllers.delete(controller); }
+      } finally { controllers.delete(controller); inFlight = false; }
     }
     void reload();
     const refresh = () => { if (document.visibilityState === 'visible') void reload(); };
+    const poll = window.setInterval(refresh, 5000);
     window.addEventListener('focus', refresh);
     document.addEventListener('visibilitychange', refresh);
     return () => {
       active = false;
+      window.clearInterval(poll);
       controllers.forEach((controller) => controller.abort());
       window.removeEventListener('focus', refresh);
       document.removeEventListener('visibilitychange', refresh);
