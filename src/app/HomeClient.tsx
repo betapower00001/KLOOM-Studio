@@ -16,6 +16,7 @@ import Product from "@/components/Product";
 import Article from "@/components/Article";
 import BlogList from "@/components/BlogList";
 import Video from "@/components/Video";
+import ServiceSection from "@/components/ServiceSection";
 
 export default function HomeClient() {
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export default function HomeClient() {
           <About />
           <Video />
           <Product />
-          <Services />
+          <ServiceSection />
           <Stats />
           <Testimonials />
           <Exaddon />
